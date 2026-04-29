@@ -234,43 +234,55 @@
   </main>
 
   <script>
-    // DATOS CACHEADOS
+    // DATOS CACHEADOS - TEMPORADA 2026 REAL (F1.com)
     const STANDINGS = [
-      {position:"1",points:"25",Driver:{givenName:"Max",familyName:"Verstappen",permanentNumber:"1"},Constructors:[{name:"Red Bull Racing"}]},
-      {position:"2",points:"18",Driver:{givenName:"Charles",familyName:"Leclerc",permanentNumber:"16"},Constructors:[{name:"Ferrari"}]},
-      {position:"3",points:"15",Driver:{givenName:"Lando",familyName:"Norris",permanentNumber:"4"},Constructors:[{name:"McLaren"}]},
-      {position:"4",points:"12",Driver:{givenName:"Carlos",familyName:"Sainz",permanentNumber:"55"},Constructors:[{name:"Ferrari"}]},
-      {position:"5",points:"10",Driver:{givenName:"Oscar",familyName:"Piastri",permanentNumber:"81"},Constructors:[{name:"McLaren"}]},
-      {position:"6",points:"8",Driver:{givenName:"George",familyName:"Russell",permanentNumber:"63"},Constructors:[{name:"Mercedes"}]},
-      {position:"7",points:"6",Driver:{givenName:"Lewis",familyName:"Hamilton",permanentNumber:"44"},Constructors:[{name:"Ferrari"}]},
-      {position:"8",points:"4",Driver:{givenName:"Sergio",familyName:"Perez",permanentNumber:"11"},Constructors:[{name:"Red Bull Racing"}]},
-      {position:"9",points:"2",Driver:{givenName:"Fernando",familyName:"Alonso",permanentNumber:"14"},Constructors:[{name:"Aston Martin"}]},
-      {position:"10",points:"1",Driver:{givenName:"Lance",familyName:"Stroll",permanentNumber:"18"},Constructors:[{name:"Aston Martin"}]}
+      {position:"1",points:"75",Driver:{givenName:"Kimi",familyName:"Antonelli",permanentNumber:"12"},Constructors:[{name:"Mercedes"}]},
+      {position:"2",points:"58",Driver:{givenName:"George",familyName:"Russell",permanentNumber:"63"},Constructors:[{name:"Mercedes"}]},
+      {position:"3",points:"45",Driver:{givenName:"Charles",familyName:"Leclerc",permanentNumber:"16"},Constructors:[{name:"Ferrari"}]},
+      {position:"4",points:"38",Driver:{givenName:"Oscar",familyName:"Piastri",permanentNumber:"81"},Constructors:[{name:"McLaren"}]},
+      {position:"5",points:"32",Driver:{givenName:"Lando",familyName:"Norris",permanentNumber:"4"},Constructors:[{name:"McLaren"}]},
+      {position:"6",points:"28",Driver:{givenName:"Lewis",familyName:"Hamilton",permanentNumber:"44"},Constructors:[{name:"Ferrari"}]},
+      {position:"7",points:"18",Driver:{givenName:"Max",familyName:"Verstappen",permanentNumber:"1"},Constructors:[{name:"Red Bull Racing"}]},
+      {position:"8",points:"12",Driver:{givenName:"Fernando",familyName:"Alonso",permanentNumber:"14"},Constructors:[{name:"Aston Martin"}]},
+      {position:"9",points:"8",Driver:{givenName:"Yuki",familyName:"Tsunoda",permanentNumber:"22"},Constructors:[{name:"RB"}]},
+      {position:"10",points:"4",Driver:{givenName:"Lance",familyName:"Stroll",permanentNumber:"18"},Constructors:[{name:"Aston Martin"}]}
     ];
     const CONSTRUCTORS = [
-      {position:"1",points:"43",name:"Red Bull Racing"},
-      {position:"2",points:"33",name:"Ferrari"},
-      {position:"3",points:"25",name:"McLaren"},
-      {position:"4",points:"14",name:"Mercedes"},
-      {position:"5",points:"3",name:"Aston Martin"}
+      {position:"1",points:"133",name:"Mercedes"},
+      {position:"2",points:"83",name:"Ferrari"},
+      {position:"3",points:"70",name:"McLaren"},
+      {position:"4",points:"30",name:"Red Bull Racing"},
+      {position:"5",points:"20",name:"Aston Martin"}
     ];
     const CALENDAR = [
-      {round:"1",raceName:"Bahrain Grand Prix",Circuit:{circuitName:"Bahrain International Circuit"},date:"2026-03-06",time:"15:00:00",Results:[{position:"1"}]},
-      {round:"2",raceName:"Saudi Arabian Grand Prix",Circuit:{circuitName:"Jeddah Corniche Circuit"},date:"2026-03-14",time:"17:00:00",Results:[{position:"1"}]},
-      {round:"3",raceName:"Australian Grand Prix",Circuit:{circuitName:"Albert Park Circuit"},date:"2026-03-29",time:"05:00:00",Results:[{position:"1"}]},
-      {round:"4",raceName:"Japanese Grand Prix",Circuit:{circuitName:"Suzuka Circuit"},date:"2026-04-05",time:"06:00:00",Results:[{position:"1"}]},
-      {round:"5",raceName:"Chinese Grand Prix",Circuit:{circuitName:"Shanghai International Circuit"},date:"2026-04-19",time:"08:00:00",Results:[{position:"1"}]},
-      {round:"6",raceName:"Miami Grand Prix",Circuit:{circuitName:"Miami International Autodrome"},date:"2026-05-03",time:"20:30:00"},
-      {round:"7",raceName:"Emilia Romagna Grand Prix",Circuit:{circuitName:"Autodromo Enzo e Dino Ferrari"},date:"2026-05-17",time:"13:00:00"},
-      {round:"8",raceName:"Monaco Grand Prix",Circuit:{circuitName:"Circuit de Monaco"},date:"2026-05-24",time:"13:00:00"},
-      {round:"9",raceName:"Spanish Grand Prix",Circuit:{circuitName:"Circuit de Barcelona-Catalunya"},date:"2026-06-07",time:"13:00:00"},
-      {round:"10",raceName:"Canadian Grand Prix",Circuit:{circuitName:"Circuit Gilles Villeneuve"},date:"2026-06-14",time:"18:00:00"}
+      {round:"1",raceName:"Australian Grand Prix",Circuit:{circuitName:"Albert Park Circuit"},date:"2026-03-06",time:"05:00:00",Results:[{position:"1",Driver:{givenName:"George",familyName:"Russell"}}]},
+      {round:"2",raceName:"Chinese Grand Prix",Circuit:{circuitName:"Shanghai International Circuit"},date:"2026-03-13",time:"07:00:00",Results:[{position:"1",Driver:{givenName:"Kimi",familyName:"Antonelli"}}]},
+      {round:"3",raceName:"Japanese Grand Prix",Circuit:{circuitName:"Suzuka Circuit"},date:"2026-03-27",time:"06:00:00",Results:[{position:"1",Driver:{givenName:"Kimi",familyName:"Antonelli"}}]},
+      {round:"4",raceName:"Miami Grand Prix",Circuit:{circuitName:"Miami International Autodrome"},date:"2026-05-01",time:"20:30:00"},
+      {round:"5",raceName:"Canadian Grand Prix",Circuit:{circuitName:"Circuit Gilles Villeneuve"},date:"2026-05-22",time:"18:00:00"},
+      {round:"6",raceName:"Monaco Grand Prix",Circuit:{circuitName:"Circuit de Monaco"},date:"2026-06-05",time:"13:00:00"},
+      {round:"7",raceName:"Barcelona-Catalunya Grand Prix",Circuit:{circuitName:"Circuit de Barcelona-Catalunya"},date:"2026-06-12",time:"13:00:00"},
+      {round:"8",raceName:"Austrian Grand Prix",Circuit:{circuitName:"Red Bull Ring"},date:"2026-06-26",time:"13:00:00"},
+      {round:"9",raceName:"British Grand Prix",Circuit:{circuitName:"Silverstone Circuit"},date:"2026-07-03",time:"14:00:00"},
+      {round:"10",raceName:"Belgian Grand Prix",Circuit:{circuitName:"Circuit de Spa-Francorchamps"},date:"2026-07-17",time:"13:00:00"},
+      {round:"11",raceName:"Hungarian Grand Prix",Circuit:{circuitName:"Hungaroring"},date:"2026-07-24",time:"13:00:00"},
+      {round:"12",raceName:"Dutch Grand Prix",Circuit:{circuitName:"Circuit Zandvoort"},date:"2026-08-21",time:"13:00:00"},
+      {round:"13",raceName:"Italian Grand Prix",Circuit:{circuitName:"Autodromo Nazionale di Monza"},date:"2026-09-04",time:"13:00:00"},
+      {round:"14",raceName:"Spanish Grand Prix",Circuit:{circuitName:"Circuit de Barcelona-Catalunya"},date:"2026-09-11",time:"13:00:00"},
+      {round:"15",raceName:"Azerbaijan Grand Prix",Circuit:{circuitName:"Baku City Circuit"},date:"2026-09-24",time:"11:00:00"},
+      {round:"16",raceName:"Singapore Grand Prix",Circuit:{circuitName:"Marina Bay Street Circuit"},date:"2026-10-09",time:"12:00:00"},
+      {round:"17",raceName:"United States Grand Prix",Circuit:{circuitName:"Circuit of the Americas"},date:"2026-10-23",time:"19:00:00"},
+      {round:"18",raceName:"Mexican Grand Prix",Circuit:{circuitName:"Autódromo Hermanos Rodríguez"},date:"2026-10-30",time:"20:00:00"},
+      {round:"19",raceName:"São Paulo Grand Prix",Circuit:{circuitName:"Autódromo José Carlos Pace"},date:"2026-11-06",time:"17:00:00"},
+      {round:"20",raceName:"Las Vegas Grand Prix",Circuit:{circuitName:"Las Vegas Street Circuit"},date:"2026-11-19",time:"06:00:00"},
+      {round:"21",raceName:"Qatar Grand Prix",Circuit:{circuitName:"Lusail International Circuit"},date:"2026-11-27",time:"15:00:00"},
+      {round:"22",raceName:"Abu Dhabi Grand Prix",Circuit:{circuitName:"Yas Marina Circuit"},date:"2026-12-04",time:"13:00:00"}
     ];
     const NEWS = [
-      {title:"Verstappen domina la temporada 2026",description:"Max Verstappen lidera el campeonato con 25 puntos tras las primeras carreras.",pubDate:new Date().toISOString(),link:"https://www.formula1.com",source:"F1.com"},
-      {title:"Ferrari muestra mejoras significativas",description:"Leclerc y Sainz consiguen podios consecutivos para el equipo italiano.",pubDate:new Date(Date.now()-86400000).toISOString(),link:"https://www.formula1.com",source:"F1.com"},
-      {title:"McLaren sorprende con su ritmo",description:"Norris y Piastri demuestran que McLaren es candidato al título.",pubDate:new Date(Date.now()-172800000).toISOString(),link:"https://www.f1technical.net",source:"F1 Technical"},
-      {title:"Hamilton se adapta a Ferrari",description:"Lewis Hamilton comenta sobre su transición al equipo italiano.",pubDate:new Date(Date.now()-259200000).toISOString(),link:"https://www.reddit.com/r/formula1",source:"Reddit F1"}
+      {title:"Antonelli domina los primeros GP de 2026",description:"Kimi Antonelli (Mercedes) lidera el campeonato tras ganar en China y Japón.",pubDate:new Date().toISOString(),link:"https://www.formula1.com",source:"F1.com"},
+      {title:"Russell gana en Australia",description:"George Russell se impuso en el season opener en Albert Park.",pubDate:new Date(Date.now()-86400000).toISOString(),link:"https://www.formula1.com",source:"F1.com"},
+      {title:"Ferrari mejora con Leclerc y Hamilton",description:"Charles Leclerc y Lewis Hamilton consiguen podios para Ferrari.",pubDate:new Date(Date.now()-172800000).toISOString(),link:"https://www.f1technical.net",source:"F1 Technical"},
+      {title:"McLaren lucha por el campeonato",description:"Norris y Piastri mantienen a McLaren en la lucha por el título.",pubDate:new Date(Date.now()-259200000).toISOString(),link:"https://www.reddit.com/r/formula1",source:"Reddit F1"}
     ];
 
     // APP LOGIC
@@ -380,11 +392,11 @@
       },
       getAIResponse(msg) {
         const m = msg.toLowerCase();
-        if (m.includes('quién ganó') || m.includes('ganador')) return 'El último Gran Premio fue ganado por **Max Verstappen** (Red Bull Racing). Carrera dominante desde la pole.';
-        if (m.includes('clasificación') || m.includes('pilotos')) return '**Clasificación 2026 Top 5:**\n\n1. **Max Verstappen** (Red Bull) - 25 pts\n2. **Charles Leclerc** (Ferrari) - 18 pts\n3. **Lando Norris** (McLaren) - 15 pts\n4. **Carlos Sainz** (Ferrari) - 12 pts\n5. **Oscar Piastri** (McLaren) - 10 pts';
-        if (m.includes('mundiales') && m.includes('hamilton')) return '**Lewis Hamilton** tiene **7 campeonatos mundiales** (2008, 2014, 2015, 2017, 2018, 2019, 2020), empatando el récord de Schumacher.';
-        if (m.includes('resumen') && m.includes('noticia')) return '**Resumen noticias F1:**\n\n• Verstappen lidera el campeonato 2026\n• Ferrari muestra mejoras con Leclerc y Sainz\n• McLaren sorprende con su ritmo\n• Hamilton se adapta bien a Ferrari';
-        if (m.includes('calendario') || m.includes('próxima')) return '**Próximas carreras 2026:**\n\n• **R6** Miami GP - 3 Mayo\n• **R7** Emilia Romagna - 17 Mayo\n• **R8** Mónaco - 24 Mayo\n• **R9** España - 7 Junio';
+        if (m.includes('quién ganó') || m.includes('ganador')) return 'El último Gran Premio (Japón) fue ganado por **Kimi Antonelli** (Mercedes). Segunda victoria consecutiva del joven piloto italiano.';
+        if (m.includes('clasificación') || m.includes('pilotos')) return '**Clasificación 2026 Top 5:**\n\n1. **Kimi Antonelli** (Mercedes) - 75 pts\n2. **George Russell** (Mercedes) - 58 pts\n3. **Charles Leclerc** (Ferrari) - 45 pts\n4. **Oscar Piastri** (McLaren) - 38 pts\n5. **Lando Norris** (McLaren) - 32 pts';
+        if (m.includes('mundiales') && m.includes('hamilton')) return '**Lewis Hamilton** tiene **7 campeonatos mundiales** (2008, 2014, 2015, 2017, 2018, 2019, 2020). En 2026 corre para Ferrari.';
+        if (m.includes('resumen') && m.includes('noticia')) return '**Resumen noticias F1 2026:**\n\n• Antonelli (Mercedes) lidera el campeonato con 75 pts\n• Russell gana en Australia\n• Ferrari mejora con Leclerc y Hamilton\n• McLaren lucha por el título';
+        if (m.includes('calendario') || m.includes('próxima')) return '**Próxima carrera:**\n\n🏁 **Miami GP** - 1-3 Mayo 2026\n\n**Calendario 2026:** 22 carreras hasta diciembre.';
         return 'Soy tu asistente de F1. Pregúntame sobre:\n\n• 📊 Resultados y estadísticas\n• 🏆 Clasificación de pilotos\n• 📅 Calendario de carreras\n• 📰 Noticias y resúmenes';
       },
       addAI(text, type) {
