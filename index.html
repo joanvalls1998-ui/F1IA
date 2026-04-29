@@ -5,426 +5,665 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#e10600">
+  <meta name="description" content="F1IA - La mejor web de Fórmula 1 con Live Timing, telemetría, predicciones y stats en tiempo real">
   <title>F1IA - Formula 1 Intelligence App</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2315151e'/><text x='50' y='68' font-family='Arial Black' font-size='50' font-weight='900' font-style='italic' text-anchor='middle' fill='%23ffffff'>F1</text><text x='50' y='90' font-family='Arial Black' font-size='24' font-weight='900' font-style='italic' text-anchor='middle' fill='%23e10600'>IA</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e10600'/><text x='50' y='68' font-family='Arial Black' font-size='50' font-weight='900' font-style='italic' text-anchor='middle' fill='%23ffffff'>F1</text></svg>">
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRjFJQSIsInNob3J0X25hbWUiOiJGMUlBIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzE1MTUxZSIsInRoZW1lX2NvbG9yIjoiI2UxMDYwMCIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgcng9JzIwJyBmaWxsPScjZTEwNjAwJy8+PHRleHQgeD0nNTAnIHk9JzY4JyBmb250LWZhbWlseT0nQXJpYWwgQmxhY2snIGZvbnQtc2l6ZT0nNTAnIGZvbnQtd2VpZ2h0PSc5MDAnIGZvbnQtc3R5bGU9J2l0YWxpYycgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZmZmZic+RjE8L3RleHQ+PC9zdmc+Iiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
   <style>
-    :root{--f1-red:#e10600;--f1-red-dark:#b80500;--f1-black:#15151e;--f1-dark:#1a1a24;--f1-gray:#2a2a36;--f1-light:#383844;--f1-white:#ffffff;--success:#00ff88;--error:#ff4444}
+    :root{--f1-red:#e10600;--f1-red-dark:#b80500;--f1-black:#15151e;--f1-dark:#1a1a24;--f1-gray:#2a2a36;--f1-light:#383844;--f1-white:#ffffff;--success:#00ff88;--warning:#ffaa00;--error:#ff4444;--info:#00ccff;--mercedes:#00d2be;--ferrari:#dc0000;--redbull:#0600ef;--mclaren:#ff8000;--aston:#006f62;--alpine:#0093cc;--williams:#005aff;--rb:#6692ff;--kick:#00e701;--haas:#b6babd}
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{height:100%;overflow:hidden}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--f1-black);color:var(--f1-white);font-size:15px;line-height:1.5}
-    .topbar{position:fixed;top:0;left:0;right:0;height:56px;background:linear-gradient(135deg,var(--f1-red),var(--f1-red-dark));display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:1000;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
-    .topbar-brand{display:flex;align-items:center;gap:8px}
-    .f1ia-logo{display:flex;align-items:center;gap:2px;font-weight:900;font-style:italic;font-size:18px}
-    .f1ia-logo-f1{color:var(--f1-white);background:var(--f1-black);padding:2px 6px;border-radius:4px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--f1-black);color:var(--f1-white);font-size:15px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+    .app-container{display:flex;flex-direction:column;height:100%}
+    
+    /* Header */
+    .header{background:linear-gradient(135deg,var(--f1-red),var(--f1-red-dark));padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
+    .header-brand{display:flex;align-items:center;gap:12px}
+    .f1ia-logo{display:flex;align-items:center;gap:2px;font-weight:900;font-style:italic;font-size:20px}
+    .f1ia-logo-f1{color:var(--f1-white);background:var(--f1-black);padding:3px 8px;border-radius:6px}
     .f1ia-logo-ia{color:var(--f1-white)}
-    .topbar-title{font-weight:600;font-size:18px;letter-spacing:0.5px}
-    .topbar-status{display:flex;align-items:center;gap:8px}
-    .live-badge{background:var(--error);color:var(--f1-white);font-size:11px;font-weight:700;padding:3px 8px;border-radius:12px;animation:pulse 2s infinite}
+    .header-status{display:flex;align-items:center;gap:12px}
+    .live-badge{background:var(--error);color:var(--f1-white);font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px;animation:pulse 2s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
-    .connection-status{font-size:11px;opacity:0.8}
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:var(--f1-dark);display:flex;justify-content:space-around;align-items:center;border-top:1px solid var(--f1-light);z-index:1000}
-    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--f1-light);font-size:11px;font-weight:500;cursor:pointer;padding:8px;transition:color 0.2s}
-    .nav-btn svg{width:24px;height:24px}
-    .nav-btn.active{color:var(--f1-red)}
-    .nav-btn:hover:not(.active){color:var(--f1-white)}
-    .main-content{position:absolute;top:56px;bottom:64px;left:0;right:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
-    .section{display:none;padding:16px}
-    .section.active{display:block}
-    .section-header{margin-bottom:16px}
-    .section-header h1{font-size:24px;font-weight:700;margin-bottom:8px}
-    .filter-tabs{display:flex;gap:4px;overflow-x:auto}
-    .filter-tab{background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:6px 12px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;cursor:pointer}
-    .filter-tab.active{background:var(--f1-red);border-color:var(--f1-red)}
-    .news-feed{display:flex;flex-direction:column;gap:16px;padding-bottom:32px}
-    .news-card{background:var(--f1-dark);border-radius:12px;overflow:hidden;border:1px solid var(--f1-light);transition:transform 0.2s,border-color 0.2s}
-    .news-card:hover{transform:translateY(-2px);border-color:var(--f1-red)}
-    .news-card-content{padding:16px}
-    .news-card-source{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--f1-red);font-weight:600;text-transform:uppercase;margin-bottom:4px}
-    .news-card-title{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:4px}
-    .news-card-excerpt{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:8px}
-    .news-card-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,0.5)}
-    .tabs{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto;border-bottom:1px solid var(--f1-light);padding-bottom:8px}
-    .tab-btn{background:none;border:none;color:var(--f1-light);padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border-radius:8px;transition:all 0.2s}
-    .tab-btn.active{background:var(--f1-red);color:var(--f1-white)}
-    .tab-btn:hover:not(.active){background:var(--f1-gray);color:var(--f1-white)}
-    .tab-content{position:relative}
-    .tab-panel{display:none}
-    .tab-panel.active{display:block}
-    .standings-table{width:100%;border-collapse:collapse;background:var(--f1-dark);border-radius:12px;overflow:hidden}
-    .standings-table th,.standings-table td{padding:8px 16px;text-align:left;border-bottom:1px solid var(--f1-light)}
-    .standings-table th{background:var(--f1-gray);font-size:11px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+    .theme-toggle{background:none;border:none;color:var(--f1-white);font-size:20px;cursor:pointer;padding:4px}
+    
+    /* Hero - Next Race Countdown */
+    .hero{background:linear-gradient(135deg,rgba(225,6,0,0.15),rgba(21,21,30,0.95));padding:24px 16px;border-bottom:1px solid var(--f1-light)}
+    .hero-next{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--f1-red);margin-bottom:8px}
+    .hero-race{font-size:24px;font-weight:800;margin-bottom:4px}
+    .hero-circuit{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:16px}
+    .countdown{display:flex;gap:12px}
+    .countdown-item{background:var(--f1-dark);border:1px solid var(--f1-light);border-radius:12px;padding:12px;min-width:60px;text-align:center}
+    .countdown-value{font-size:24px;font-weight:800;color:var(--f1-red);font-variant-numeric:tabular-nums}
+    .countdown-label{font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;margin-top:4px}
+    
+    /* Main Content */
+    .main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;padding-bottom:80px}
+    
+    /* Section Headers */
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .section-title{font-size:20px;font-weight:700}
+    .section-actions{display:flex;gap:8px}
+    .btn-icon{background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:8px;padding:6px 10px;color:var(--f1-white);font-size:16px;cursor:pointer}
+    
+    /* Cards */
+    .card{background:var(--f1-dark);border:1px solid var(--f1-light);border-radius:16px;padding:16px;margin-bottom:12px;transition:transform 0.2s,border-color 0.2s}
+    .card:hover{transform:translateY(-2px);border-color:var(--f1-red)}
+    .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .card-title{font-size:16px;font-weight:700}
+    .card-subtitle{font-size:12px;color:rgba(255,255,255,0.6)}
+    
+    /* Standings Table */
+    .standings-table{width:100%;border-collapse:collapse}
+    .standings-table th{font-size:10px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,0.5);padding:8px 12px;text-align:left;border-bottom:1px solid var(--f1-light)}
+    .standings-table td{padding:12px;border-bottom:1px solid var(--f1-light)}
     .standings-table tr:last-child td{border-bottom:none}
-    .standings-table .position{font-weight:700;width:40px}
-    .standings-table .driver{display:flex;align-items:center;gap:8px}
-    .driver-helmet{width:24px;height:24px;border-radius:50%;background:var(--f1-light)}
-    .standings-table .team{font-size:13px;color:rgba(255,255,255,0.7)}
-    .standings-table .points{font-weight:700;text-align:right}
-    .calendar-list{display:flex;flex-direction:column;gap:8px}
-    .race-card{background:var(--f1-dark);border-radius:8px;padding:16px;border:1px solid var(--f1-light);display:flex;align-items:center;gap:16px}
-    .race-card.completed{opacity:0.6}
+    .pos{font-weight:800;width:32px;text-align:center}
+    .driver-row{display:flex;align-items:center;gap:10px}
+    .driver-number{background:var(--f1-light);font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;min-width:24px;text-align:center}
+    .driver-name{font-weight:600}
+    .team-name{font-size:12px;color:rgba(255,255,255,0.6)}
+    .points{font-weight:800;text-align:right;color:var(--f1-red)}
+    .trend{font-size:11px}
+    .trend-up{color:var(--success)}
+    .trend-down{color:var(--error)}
+    
+    /* Calendar */
+    .race-card{display:flex;align-items:center;gap:16px;padding:16px;background:var(--f1-dark);border:1px solid var(--f1-light);border-radius:12px;margin-bottom:8px}
     .race-card.next{border-color:var(--f1-red);background:linear-gradient(135deg,rgba(225,6,0,0.1),var(--f1-dark))}
-    .race-round{background:var(--f1-red);color:var(--f1-white);font-weight:700;font-size:13px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .race-card.completed{opacity:0.5}
+    .race-round{background:var(--f1-red);color:var(--f1-white);font-weight:800;font-size:12px;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .race-info{flex:1}
-    .race-name{font-weight:600;margin-bottom:2px}
-    .race-circuit{font-size:13px;color:rgba(255,255,255,0.6)}
-    .race-date{text-align:right;font-size:13px;color:rgba(255,255,255,0.7)}
-    .race-date .day{font-weight:700;font-size:18px;display:block}
-    .live-timing-container{display:flex;flex-direction:column;gap:16px}
-    .timing-header{background:linear-gradient(135deg,var(--f1-red),var(--f1-red-dark));padding:16px;border-radius:12px;display:flex;align-items:center;justify-content:space-between}
-    .timing-header h2{font-size:18px;font-weight:700}
-    .live-indicator{background:var(--f1-black);color:var(--f1-white);font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px;animation:pulse 2s infinite}
-    .loading-spinner{text-align:center;padding:32px;color:rgba(255,255,255,0.5);font-size:13px}
-    .season-selector select{background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:8px;border-radius:8px;font-size:15px}
-    .ai-container{display:flex;flex-direction:column;height:calc(100vh - 200px)}
-    .ai-chat{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;padding:16px 0}
-    .ai-message{display:flex;margin-bottom:8px}
-    .ai-message-user{justify-content:flex-end}
-    .ai-message-system,.ai-message-ai{justify-content:flex-start}
-    .message-content{max-width:80%;padding:8px 16px;border-radius:12px;line-height:1.5}
-    .ai-message-user .message-content{background:var(--f1-red);color:var(--f1-white);border-bottom-right-radius:4px}
-    .ai-message-system .message-content{background:var(--f1-gray);color:var(--f1-white);border-bottom-left-radius:4px}
-    .ai-message-ai .message-content{background:var(--f1-light);color:var(--f1-white);border-bottom-left-radius:4px}
-    .message-content ul{margin-left:16px;margin-top:4px}
-    .message-content li{margin-bottom:4px}
-    .message-content strong{color:var(--f1-red)}
-    .ai-input-container{display:flex;gap:8px;padding:16px 0;border-top:1px solid var(--f1-light)}
-    #ai-input{flex:1;background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:12px;color:var(--f1-white);padding:8px 16px;font-size:15px;font-family:inherit;resize:none;min-height:44px}
-    #ai-input:focus{outline:none;border-color:var(--f1-red)}
-    .ai-send-btn{background:var(--f1-red);border:none;border-radius:12px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-    .ai-send-btn:hover{background:var(--f1-red-dark)}
-    .ai-send-btn svg{width:20px;height:20px}
-    .ai-suggestions{display:flex;flex-wrap:wrap;gap:4px;padding-top:8px}
-    .suggestion-chip{background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:6px 12px;border-radius:20px;font-size:13px;cursor:pointer}
-    .suggestion-chip:hover{background:var(--f1-light);border-color:var(--f1-red)}
-    @media(min-width:768px){.main-content{padding-bottom:80px}.bottom-nav{max-width:500px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}}
-    @media(min-width:1024px){body{max-width:1200px;margin:0 auto}.main-content{left:auto;right:auto}.bottom-nav{max-width:1200px}}
-    ::-webkit-scrollbar{width:6px;height:6px}
-    ::-webkit-scrollbar-track{background:var(--f1-dark)}
-    ::-webkit-scrollbar-thumb{background:var(--f1-light);border-radius:3px}
+    .race-name{font-weight:700;margin-bottom:4px}
+    .race-circuit{font-size:12px;color:rgba(255,255,255,0.6)}
+    .race-date{text-align:right}
+    .race-day{font-size:20px;font-weight:800;color:var(--f1-red)}
+    .race-month{font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase}
+    
+    /* Live Timing */
+    .live-timing-header{background:linear-gradient(135deg,var(--f1-red),var(--f1-red-dark));padding:16px;border-radius:16px;margin-bottom:16px}
+    .live-session{font-size:18px;font-weight:800;margin-bottom:4px}
+    .live-status{display:flex;align-items:center;gap:8px;font-size:12px}
+    .live-dot{width:8px;height:8px;background:var(--error);border-radius:50%;animation:pulse 2s infinite}
+    .driver-live{display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid var(--f1-light)}
+    .driver-live:last-child{border-bottom:none}
+    .driver-live-pos{font-weight:800;width:24px;text-align:center}
+    .driver-live-info{flex:1;display:flex;align-items:center;gap:8px}
+    .driver-live-gap{font-size:12px;font-weight:700;color:var(--f1-red)}
+    .driver-live-interval{font-size:11px;color:rgba(255,255,255,0.5);width:60px;text-align:right}
+    
+    /* Telemetry */
+    .telemetry-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .telemetry-metric{background:var(--f1-gray);border-radius:8px;padding:12px;text-align:center}
+    .telemetry-label{font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;margin-bottom:4px}
+    .telemetry-value{font-size:20px;font-weight:800;color:var(--f1-red)}
+    
+    /* Comparison Tool */
+    .comparison-container{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .driver-selector{background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:8px;padding:8px 12px;color:var(--f1-white);font-size:14px}
+    .vs-badge{background:var(--f1-red);color:var(--f1-white);font-weight:800;font-size:12px;padding:4px 8px;border-radius:4px}
+    .comparison-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+    .comparison-stat{background:var(--f1-gray);border-radius:8px;padding:12px}
+    .comparison-label{font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;margin-bottom:4px}
+    .comparison-value{font-size:16px;font-weight:800}
+    .comparison-value.d1{color:var(--mercedes)}
+    .comparison-value.d2{color:var(--ferrari)}
+    
+    /* Championship Predictor */
+    .predictor-card{background:linear-gradient(135deg,var(--f1-dark),var(--f1-black));border:1px solid var(--f1-light);border-radius:16px;padding:16px;margin-bottom:12px}
+    .predictor-title{font-size:14px;font-weight:700;margin-bottom:12px}
+    .predictor-bar{height:8px;background:var(--f1-light);border-radius:4px;overflow:hidden;margin-bottom:8px}
+    .predictor-fill{height:100%;background:linear-gradient(90deg,var(--f1-red),var(--f1-red-dark));border-radius:4px;transition:width 0.5s}
+    .predictor-info{display:flex;justify-content:space-between;font-size:11px}
+    .predictor-name{font-weight:600}
+    .predictor-chance{color:var(--f1-red);font-weight:800}
+    
+    /* Weather Widget */
+    .weather-widget{display:flex;align-items:center;gap:12px;background:var(--f1-dark);border:1px solid var(--f1-light);border-radius:12px;padding:12px;margin-bottom:12px}
+    .weather-icon{font-size:32px}
+    .weather-info{flex:1}
+    .weather-temp{font-size:20px;font-weight:800}
+    .weather-location{font-size:12px;color:rgba(255,255,255,0.6)}
+    .weather-details{display:flex;gap:12px;font-size:11px;color:rgba(255,255,255,0.7)}
+    
+    /* Tabs */
+    .tabs{display:flex;gap:4px;overflow-x:auto;margin-bottom:16px;border-bottom:1px solid var(--f1-light);padding-bottom:8px}
+    .tab{background:none;border:none;color:var(--f1-light);padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border-radius:8px}
+    .tab.active{background:var(--f1-red);color:var(--f1-white)}
+    
+    /* Bottom Nav */
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--f1-dark);border-top:1px solid var(--f1-light);display:flex;justify-content:space-around;padding:8px 0;padding-bottom:env(safe-area-inset-bottom);z-index:1000}
+    .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--f1-light);font-size:10px;font-weight:600;cursor:pointer;padding:4px 12px}
+    .nav-item svg{width:22px;height:22px}
+    .nav-item.active{color:var(--f1-red)}
+    
+    /* Loading */
+    .loading{text-align:center;padding:32px;color:rgba(255,255,255,0.5)}
+    .spinner{width:40px;height:40px;border:3px solid var(--f1-light);border-top-color:var(--f1-red);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    
+    /* Responsive */
+    @media(min-width:768px){.main{max-width:800px;margin:0 auto;width:100%}.bottom-nav{max-width:800px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}}
+    @media(min-width:1024px){body{max-width:1200px;margin:0 auto}}
+    
+    /* Dark/Light Mode */
+    body.light-mode{--f1-black:#f5f5f5;--f1-dark:#ffffff;--f1-gray:#e8e8e8;--f1-light:#d0d0d0;--f1-white:#1a1a24;color:var(--f1-white)}
+    body.light-mode .card{box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+    
+    /* Sections */
+    .section{display:none}
+    .section.active{display:block}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-brand">
-      <div class="f1ia-logo">
-        <span class="f1ia-logo-f1">F1</span>
-        <span class="f1ia-logo-ia">IA</span>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-brand">
+        <div class="f1ia-logo">
+          <span class="f1ia-logo-f1">F1</span>
+          <span class="f1ia-logo-ia">IA</span>
+        </div>
       </div>
-      <span class="topbar-title">F1IA</span>
+      <div class="header-status">
+        <span class="live-badge">● LIVE</span>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </div>
+    </header>
+
+    <!-- Hero - Next Race Countdown -->
+    <div class="hero">
+      <div class="hero-next">Próxima Carrera</div>
+      <div class="hero-race" id="hero-race">Miami Grand Prix</div>
+      <div class="hero-circuit" id="hero-circuit">Miami International Autodrome</div>
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <div class="countdown-value" id="cd-days">00</div>
+          <div class="countdown-label">Días</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="cd-hours">00</div>
+          <div class="countdown-label">Hrs</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="cd-mins">00</div>
+          <div class="countdown-label">Min</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-value" id="cd-secs">00</div>
+          <div class="countdown-label">Seg</div>
+        </div>
+      </div>
     </div>
-    <div class="topbar-status">
-      <span class="live-badge">● LIVE</span>
-      <span class="connection-status" id="connection-status">🟢 Online</span>
-    </div>
-  </header>
 
-  <nav class="bottom-nav">
-    <button class="nav-btn active" data-section="news">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z"/></svg>
-      <span>Noticias</span>
-    </button>
-    <button class="nav-btn" data-section="results">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-      <span>Resultados</span>
-    </button>
-    <button class="nav-btn" data-section="live">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 5-5v10zm9-7h-7v2h7V10z"/></svg>
-      <span>Live Timing</span>
-    </button>
-    <button class="nav-btn" data-section="ai">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1v-1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18 2.5 2.5 0 0 0 10 15.5 2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5Z"/></svg>
-      <span>IA</span>
-    </button>
-  </nav>
-
-  <main class="main-content">
-    <section id="news" class="section active">
-      <div class="section-header">
-        <h1>📰 Noticias F1</h1>
-        <div class="filter-tabs">
-          <button class="filter-tab active" data-filter="all">Todas</button>
-          <button class="filter-tab" data-filter="f1com">F1.com</button>
-          <button class="filter-tab" data-filter="technical">Técnica</button>
-          <button class="filter-tab" data-filter="reddit">Comunidad</button>
+    <!-- Main Content -->
+    <main class="main">
+      <!-- HOME SECTION -->
+      <section id="home" class="section active">
+        <div class="section-header">
+          <h2 class="section-title">🏁 Resumen</h2>
         </div>
-      </div>
-      <div class="news-feed" id="news-feed">
-        <div class="loading-spinner">Cargando noticias...</div>
-      </div>
-    </section>
-
-    <section id="results" class="section">
-      <div class="section-header">
-        <h1>🏁 Resultados y Clasificación</h1>
-        <div class="season-selector">
-          <select id="season-select">
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-          </select>
+        
+        <!-- Weather Widget -->
+        <div class="weather-widget">
+          <div class="weather-icon">🌤️</div>
+          <div class="weather-info">
+            <div class="weather-temp">28°C</div>
+            <div class="weather-location">Miami, USA</div>
+          </div>
+          <div class="weather-details">
+            <div>💨 12 km/h</div>
+            <div>💧 45%</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="standings-drivers">Pilotos</button>
-        <button class="tab-btn" data-tab="standings-constructors">Constructores</button>
-        <button class="tab-btn" data-tab="calendar">Calendario</button>
-        <button class="tab-btn" data-tab="results">Carreras</button>
-      </div>
 
-      <div class="tab-content">
-        <div id="standings-drivers" class="tab-panel active"></div>
-        <div id="standings-constructors" class="tab-panel"></div>
-        <div id="calendar" class="tab-panel"></div>
-        <div id="results" class="tab-panel"></div>
-      </div>
-    </section>
+        <!-- Live Standings Preview -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Clasificación 2026</div>
+            <div class="card-subtitle">Top 5</div>
+          </div>
+          <table class="standings-table">
+            <thead>
+              <tr><th>#</th><th>Piloto</th><th>Equipo</th><th>Pts</th></tr>
+            </thead>
+            <tbody id="home-standings"></tbody>
+          </table>
+        </div>
 
-    <section id="live" class="section">
-      <div class="section-header">
-        <h1>⏱️ Live Timing</h1>
-        <div class="session-info" id="session-info">
-          <span class="session-name">Próxima sesión</span>
-          <span class="session-countdown" id="countdown">--:--:--</span>
+        <!-- Championship Predictor -->
+        <div class="predictor-card">
+          <div class="predictor-title">🏆 Predicción Campeonato</div>
+          <div id="predictor-bars"></div>
         </div>
-      </div>
-      <div class="live-timing-container">
-        <div class="timing-header">
-          <h2 id="timing-session-title">Sin sesión en vivo</h2>
-          <span class="live-indicator">🔴 EN VIVO</span>
-        </div>
-        <div class="live-standings" id="live-standings">
-          <div class="loading-spinner">No hay sesiones en vivo ahora.<br><small>Los datos aparecen durante FP1, Qualy, Sprint y Carrera</small></div>
-        </div>
-      </div>
-    </section>
 
-    <section id="ai" class="section">
-      <div class="section-header">
-        <h1>🤖 Asistente IA F1</h1>
-      </div>
-      <div class="ai-container">
-        <div class="ai-chat" id="ai-chat">
-          <div class="ai-message ai-message-system">
-            <div class="message-content">
-              ¡Hola! Soy tu asistente de F1. Pregúntame sobre:
-              <ul>
-                <li>📊 Resultados y estadísticas</li>
-                <li>🏆 Historial de pilotos y equipos</li>
-                <li>📰 Resúmenes de noticias</li>
-                <li>📈 Análisis de telemetría</li>
-              </ul>
+        <!-- Next Race -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Próxima Carrera</div>
+          </div>
+          <div class="race-card next" id="next-race-card"></div>
+        </div>
+      </section>
+
+      <!-- STANDINGS SECTION -->
+      <section id="standings" class="section">
+        <div class="section-header">
+          <h2 class="section-title">📊 Clasificación</h2>
+          <div class="section-actions">
+            <button class="btn-icon" onclick="switchStandings('drivers')">👨‍🏎️</button>
+            <button class="btn-icon" onclick="switchStandings('constructors')">🏢</button>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="filterStandings('all')">Todos</button>
+          <button class="tab" onclick="filterStandings('top5')">Top 5</button>
+          <button class="tab" onclick="filterStandings('top10')">Top 10</button>
+        </div>
+        <div class="card">
+          <table class="standings-table">
+            <thead>
+              <tr><th>#</th><th>Piloto</th><th>Equipo</th><th>Pts</th><th>Trend</th></tr>
+            </thead>
+            <tbody id="standings-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CALENDAR SECTION -->
+      <section id="calendar" class="section">
+        <div class="section-header">
+          <h2 class="section-title">📅 Calendario 2026</h2>
+          <div class="card-subtitle">22 carreras</div>
+        </div>
+        <div id="calendar-list"></div>
+      </section>
+
+      <!-- LIVE SECTION -->
+      <section id="live" class="section">
+        <div class="live-timing-header">
+          <div class="live-session" id="live-session">Sin sesión en vivo</div>
+          <div class="live-status">
+            <div class="live-dot"></div>
+            <span>LIVE</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Live Timing</div>
+          </div>
+          <div id="live-timing-body">
+            <div class="loading">No hay sesión en vivo ahora</div>
+          </div>
+        </div>
+        
+        <!-- Telemetry -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Telemetría</div>
+          </div>
+          <div class="telemetry-grid">
+            <div class="telemetry-metric">
+              <div class="telemetry-label">Velocidad</div>
+              <div class="telemetry-value">-- km/h</div>
+            </div>
+            <div class="telemetry-metric">
+              <div class="telemetry-label">RPM</div>
+              <div class="telemetry-value">--</div>
+            </div>
+            <div class="telemetry-metric">
+              <div class="telemetry-label">Marcha</div>
+              <div class="telemetry-value">N</div>
+            </div>
+            <div class="telemetry-metric">
+              <div class="telemetry-label">Throttle</div>
+              <div class="telemetry-value">--%</div>
             </div>
           </div>
         </div>
-        <div class="ai-input-container">
-          <textarea id="ai-input" placeholder="Pregunta algo sobre F1..." rows="2"></textarea>
-          <button id="ai-send-btn" class="ai-send-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-          </button>
+      </section>
+
+      <!-- COMPARE SECTION -->
+      <section id="compare" class="section">
+        <div class="section-header">
+          <h2 class="section-title">⚔️ Comparar Pilotos</h2>
         </div>
-        <div class="ai-suggestions">
-          <button class="suggestion-chip" data-query="¿Quién ganó el último GP?">¿Quién ganó el último GP?</button>
-          <button class="suggestion-chip" data-query="Clasificación de pilotos 2026">Clasificación 2026</button>
-          <button class="suggestion-chip" data-query="Resumen de noticias de hoy">Resumen noticias</button>
-          <button class="suggestion-chip" data-query="¿Cuántos mundiales tiene Hamilton?">Mundiales Hamilton</button>
+        <div class="comparison-container">
+          <select class="driver-selector" id="driver1" onchange="updateComparison()">
+            <option value="antonelli">K. Antonelli</option>
+            <option value="russell">G. Russell</option>
+            <option value="leclerc">C. Leclerc</option>
+            <option value="piastri">O. Piastri</option>
+            <option value="norris">L. Norris</option>
+            <option value="hamilton">L. Hamilton</option>
+            <option value="verstappen">M. Verstappen</option>
+          </select>
+          <div class="vs-badge">VS</div>
+          <select class="driver-selector" id="driver2" onchange="updateComparison()">
+            <option value="russell">G. Russell</option>
+            <option value="antonelli">K. Antonelli</option>
+            <option value="leclerc">C. Leclerc</option>
+            <option value="piastri">O. Piastri</option>
+            <option value="norris">L. Norris</option>
+            <option value="hamilton">L. Hamilton</option>
+            <option value="verstappen">M. Verstappen</option>
+          </select>
         </div>
-      </div>
-    </section>
-  </main>
+        <div class="comparison-stats">
+          <div class="comparison-stat">
+            <div class="comparison-label">Puntos</div>
+            <div class="comparison-value d1" id="comp-p1">75</div>
+            <div class="comparison-value d2" id="comp-p2">58</div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-label">Victorias</div>
+            <div class="comparison-value d1" id="comp-w1">2</div>
+            <div class="comparison-value d2" id="comp-w2">1</div>
+          </div>
+          <div class="comparison-stat">
+            <div class="comparison-label">Podios</div>
+            <div class="comparison-value d1" id="comp-po1">3</div>
+            <div class="comparison-value d2" id="comp-po2">3</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-section="home">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Inicio</span>
+      </button>
+      <button class="nav-item" data-section="standings">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span>Clasificación</span>
+      </button>
+      <button class="nav-item" data-section="calendar">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+        <span>Calendario</span>
+      </button>
+      <button class="nav-item" data-section="live">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 5-5v10zm9-7h-7v2h7V10z"/></svg>
+        <span>Live</span>
+      </button>
+      <button class="nav-item" data-section="compare">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/></svg>
+        <span>Comparar</span>
+      </button>
+    </nav>
+  </div>
 
   <script>
-    // DATOS CACHEADOS - TEMPORADA 2026 REAL (F1.com)
-    const STANDINGS = [
-      {position:"1",points:"75",Driver:{givenName:"Kimi",familyName:"Antonelli",permanentNumber:"12"},Constructors:[{name:"Mercedes"}]},
-      {position:"2",points:"58",Driver:{givenName:"George",familyName:"Russell",permanentNumber:"63"},Constructors:[{name:"Mercedes"}]},
-      {position:"3",points:"45",Driver:{givenName:"Charles",familyName:"Leclerc",permanentNumber:"16"},Constructors:[{name:"Ferrari"}]},
-      {position:"4",points:"38",Driver:{givenName:"Oscar",familyName:"Piastri",permanentNumber:"81"},Constructors:[{name:"McLaren"}]},
-      {position:"5",points:"32",Driver:{givenName:"Lando",familyName:"Norris",permanentNumber:"4"},Constructors:[{name:"McLaren"}]},
-      {position:"6",points:"28",Driver:{givenName:"Lewis",familyName:"Hamilton",permanentNumber:"44"},Constructors:[{name:"Ferrari"}]},
-      {position:"7",points:"18",Driver:{givenName:"Max",familyName:"Verstappen",permanentNumber:"1"},Constructors:[{name:"Red Bull Racing"}]},
-      {position:"8",points:"12",Driver:{givenName:"Fernando",familyName:"Alonso",permanentNumber:"14"},Constructors:[{name:"Aston Martin"}]},
-      {position:"9",points:"8",Driver:{givenName:"Yuki",familyName:"Tsunoda",permanentNumber:"22"},Constructors:[{name:"RB"}]},
-      {position:"10",points:"4",Driver:{givenName:"Lance",familyName:"Stroll",permanentNumber:"18"},Constructors:[{name:"Aston Martin"}]}
+    // DATOS REALES 2026
+    const DRIVERS = [
+      {id:'antonelli',name:'Kimi Antonelli',number:'12',team:'Mercedes',points:75,wins:2,podiums:3,color:'var(--mercedes)'},
+      {id:'russell',name:'George Russell',number:'63',team:'Mercedes',points:58,wins:1,podiums:3,color:'var(--mercedes)'},
+      {id:'leclerc',name:'Charles Leclerc',number:'16',team:'Ferrari',points:45,wins:0,podiums:2,color:'var(--ferrari)'},
+      {id:'piastri',name:'Oscar Piastri',number:'81',team:'McLaren',points:38,wins:0,podiums:2,color:'var(--mclaren)'},
+      {id:'norris',name:'Lando Norris',number:'4',team:'McLaren',points:32,wins:0,podiums:1,color:'var(--mclaren)'},
+      {id:'hamilton',name:'Lewis Hamilton',number:'44',team:'Ferrari',points:28,wins:0,podiums:1,color:'var(--ferrari)'},
+      {id:'verstappen',name:'Max Verstappen',number:'1',team:'Red Bull Racing',points:18,wins:0,podiums:0,color:'var(--redbull)'},
+      {id:'alonso',name:'Fernando Alonso',number:'14',team:'Aston Martin',points:12,wins:0,podiums:0,color:'var(--aston)'},
+      {id:'tsunoda',name:'Yuki Tsunoda',number:'22',team:'RB',points:8,wins:0,podiums:0,color:'var(--rb)'},
+      {id:'stroll',name:'Lance Stroll',number:'18',team:'Aston Martin',points:4,wins:0,podiums:0,color:'var(--aston)'}
     ];
+
     const CONSTRUCTORS = [
-      {position:"1",points:"133",name:"Mercedes"},
-      {position:"2",points:"83",name:"Ferrari"},
-      {position:"3",points:"70",name:"McLaren"},
-      {position:"4",points:"30",name:"Red Bull Racing"},
-      {position:"5",points:"20",name:"Aston Martin"}
+      {name:'Mercedes',points:133,color:'var(--mercedes)'},
+      {name:'Ferrari',points:83,color:'var(--ferrari)'},
+      {name:'McLaren',points:70,color:'var(--mclaren)'},
+      {name:'Red Bull Racing',points:30,color:'var(--redbull)'},
+      {name:'Aston Martin',points:20,color:'var(--aston)'}
     ];
+
     const CALENDAR = [
-      {round:"1",raceName:"Australian Grand Prix",Circuit:{circuitName:"Albert Park Circuit"},date:"2026-03-06",time:"05:00:00",Results:[{position:"1",Driver:{givenName:"George",familyName:"Russell"}}]},
-      {round:"2",raceName:"Chinese Grand Prix",Circuit:{circuitName:"Shanghai International Circuit"},date:"2026-03-13",time:"07:00:00",Results:[{position:"1",Driver:{givenName:"Kimi",familyName:"Antonelli"}}]},
-      {round:"3",raceName:"Japanese Grand Prix",Circuit:{circuitName:"Suzuka Circuit"},date:"2026-03-27",time:"06:00:00",Results:[{position:"1",Driver:{givenName:"Kimi",familyName:"Antonelli"}}]},
-      {round:"4",raceName:"Miami Grand Prix",Circuit:{circuitName:"Miami International Autodrome"},date:"2026-05-01",time:"20:30:00"},
-      {round:"5",raceName:"Canadian Grand Prix",Circuit:{circuitName:"Circuit Gilles Villeneuve"},date:"2026-05-22",time:"18:00:00"},
-      {round:"6",raceName:"Monaco Grand Prix",Circuit:{circuitName:"Circuit de Monaco"},date:"2026-06-05",time:"13:00:00"},
-      {round:"7",raceName:"Barcelona-Catalunya Grand Prix",Circuit:{circuitName:"Circuit de Barcelona-Catalunya"},date:"2026-06-12",time:"13:00:00"},
-      {round:"8",raceName:"Austrian Grand Prix",Circuit:{circuitName:"Red Bull Ring"},date:"2026-06-26",time:"13:00:00"},
-      {round:"9",raceName:"British Grand Prix",Circuit:{circuitName:"Silverstone Circuit"},date:"2026-07-03",time:"14:00:00"},
-      {round:"10",raceName:"Belgian Grand Prix",Circuit:{circuitName:"Circuit de Spa-Francorchamps"},date:"2026-07-17",time:"13:00:00"},
-      {round:"11",raceName:"Hungarian Grand Prix",Circuit:{circuitName:"Hungaroring"},date:"2026-07-24",time:"13:00:00"},
-      {round:"12",raceName:"Dutch Grand Prix",Circuit:{circuitName:"Circuit Zandvoort"},date:"2026-08-21",time:"13:00:00"},
-      {round:"13",raceName:"Italian Grand Prix",Circuit:{circuitName:"Autodromo Nazionale di Monza"},date:"2026-09-04",time:"13:00:00"},
-      {round:"14",raceName:"Spanish Grand Prix",Circuit:{circuitName:"Circuit de Barcelona-Catalunya"},date:"2026-09-11",time:"13:00:00"},
-      {round:"15",raceName:"Azerbaijan Grand Prix",Circuit:{circuitName:"Baku City Circuit"},date:"2026-09-24",time:"11:00:00"},
-      {round:"16",raceName:"Singapore Grand Prix",Circuit:{circuitName:"Marina Bay Street Circuit"},date:"2026-10-09",time:"12:00:00"},
-      {round:"17",raceName:"United States Grand Prix",Circuit:{circuitName:"Circuit of the Americas"},date:"2026-10-23",time:"19:00:00"},
-      {round:"18",raceName:"Mexican Grand Prix",Circuit:{circuitName:"Autódromo Hermanos Rodríguez"},date:"2026-10-30",time:"20:00:00"},
-      {round:"19",raceName:"São Paulo Grand Prix",Circuit:{circuitName:"Autódromo José Carlos Pace"},date:"2026-11-06",time:"17:00:00"},
-      {round:"20",raceName:"Las Vegas Grand Prix",Circuit:{circuitName:"Las Vegas Street Circuit"},date:"2026-11-19",time:"06:00:00"},
-      {round:"21",raceName:"Qatar Grand Prix",Circuit:{circuitName:"Lusail International Circuit"},date:"2026-11-27",time:"15:00:00"},
-      {round:"22",raceName:"Abu Dhabi Grand Prix",Circuit:{circuitName:"Yas Marina Circuit"},date:"2026-12-04",time:"13:00:00"}
-    ];
-    const NEWS = [
-      {title:"Antonelli domina los primeros GP de 2026",description:"Kimi Antonelli (Mercedes) lidera el campeonato tras ganar en China y Japón.",pubDate:new Date().toISOString(),link:"https://www.formula1.com",source:"F1.com"},
-      {title:"Russell gana en Australia",description:"George Russell se impuso en el season opener en Albert Park.",pubDate:new Date(Date.now()-86400000).toISOString(),link:"https://www.formula1.com",source:"F1.com"},
-      {title:"Ferrari mejora con Leclerc y Hamilton",description:"Charles Leclerc y Lewis Hamilton consiguen podios para Ferrari.",pubDate:new Date(Date.now()-172800000).toISOString(),link:"https://www.f1technical.net",source:"F1 Technical"},
-      {title:"McLaren lucha por el campeonato",description:"Norris y Piastri mantienen a McLaren en la lucha por el título.",pubDate:new Date(Date.now()-259200000).toISOString(),link:"https://www.reddit.com/r/formula1",source:"Reddit F1"}
+      {round:1,name:'Australian Grand Prix',circuit:'Albert Park',date:'2026-03-06',time:'05:00',done:true,winner:'Russell'},
+      {round:2,name:'Chinese Grand Prix',circuit:'Shanghai',date:'2026-03-13',time:'07:00',done:true,winner:'Antonelli'},
+      {round:3,name:'Japanese Grand Prix',circuit:'Suzuka',date:'2026-03-27',time:'06:00',done:true,winner:'Antonelli'},
+      {round:4,name:'Miami Grand Prix',circuit:'Miami',date:'2026-05-01',time:'20:30',done:false},
+      {round:5,name:'Canadian Grand Prix',circuit:'Gilles Villeneuve',date:'2026-05-22',time:'18:00',done:false},
+      {round:6,name:'Monaco Grand Prix',circuit:'Monaco',date:'2026-06-05',time:'13:00',done:false},
+      {round:7,name:'Barcelona-Catalunya',circuit:'Barcelona',date:'2026-06-12',time:'13:00',done:false},
+      {round:8,name:'Austrian Grand Prix',circuit:'Red Bull Ring',date:'2026-06-26',time:'13:00',done:false},
+      {round:9,name:'British Grand Prix',circuit:'Silverstone',date:'2026-07-03',time:'14:00',done:false},
+      {round:10,name:'Belgian Grand Prix',circuit:'Spa-Francorchamps',date:'2026-07-17',time:'13:00',done:false},
+      {round:11,name:'Hungarian Grand Prix',circuit:'Hungaroring',date:'2026-07-24',time:'13:00',done:false},
+      {round:12,name:'Dutch Grand Prix',circuit:'Zandvoort',date:'2026-08-21',time:'13:00',done:false},
+      {round:13,name:'Italian Grand Prix',circuit:'Monza',date:'2026-09-04',time:'13:00',done:false},
+      {round:14,name:'Spanish Grand Prix',circuit:'Barcelona',date:'2026-09-11',time:'13:00',done:false},
+      {round:15,name:'Azerbaijan Grand Prix',circuit:'Baku',date:'2026-09-24',time:'11:00',done:false},
+      {round:16,name:'Singapore Grand Prix',circuit:'Marina Bay',date:'2026-10-09',time:'12:00',done:false},
+      {round:17,name:'United States Grand Prix',circuit:'COTA',date:'2026-10-23',time:'19:00',done:false},
+      {round:18,name:'Mexican Grand Prix',circuit:'Hermanos Rodríguez',date:'2026-10-30',time:'20:00',done:false},
+      {round:19,name:'São Paulo Grand Prix',circuit:'Interlagos',date:'2026-11-06',time:'17:00',done:false},
+      {round:20,name:'Las Vegas Grand Prix',circuit:'Las Vegas',date:'2026-11-19',time:'06:00',done:false},
+      {round:21,name:'Qatar Grand Prix',circuit:'Lusail',date:'2026-11-27',time:'15:00',done:false},
+      {round:22,name:'Abu Dhabi Grand Prix',circuit:'Yas Marina',date:'2026-12-04',time:'13:00',done:false}
     ];
 
-    // APP LOGIC
-    const App = {
-      currentSection: 'news',
-      init() {
-        this.bindNav();
-        this.bindTabs();
-        this.loadSection('news');
-      },
-      bindNav() {
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-          btn.addEventListener('click', () => this.navigateTo(btn.dataset.section));
+    // App State
+    let currentSection = 'home';
+    let standingsType = 'drivers';
+    let standingsFilter = 'all';
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      initNav();
+      renderHome();
+      renderStandings();
+      renderCalendar();
+      updateCountdown();
+      updatePredictor();
+      updateComparison();
+      setInterval(updateCountdown, 1000);
+    });
+
+    // Navigation
+    function initNav() {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+          switchSection(item.dataset.section);
         });
-      },
-      bindTabs() {
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-          btn.addEventListener('click', () => this.switchTab(btn.dataset.tab));
-        });
-        document.querySelectorAll('.filter-tab').forEach(btn => {
-          btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-            this.loadNews(btn.dataset.filter);
-          });
-        });
-      },
-      navigateTo(section) {
-        if (section === this.currentSection) return;
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.section === section));
-        document.querySelectorAll('.section').forEach(sec => sec.classList.toggle('active', sec.id === section));
-        this.currentSection = section;
-        this.loadSection(section);
-      },
-      switchTab(tab) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
-        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === tab));
-      },
-      loadSection(section) {
-        if (section === 'news') this.loadNews();
-        else if (section === 'results') this.loadStandings();
-        else if (section === 'ai') this.initAI();
-      },
-      loadNews() {
-        const feed = document.getElementById('news-feed');
-        if (!feed) return;
-        feed.innerHTML = NEWS.map(item => `
-          <article class="news-card" onclick="window.open('${item.link}','_blank')">
-            <div class="news-card-content">
-              <div class="news-card-source">${item.source}</div>
-              <h3 class="news-card-title">${item.title}</h3>
-              <p class="news-card-excerpt">${item.description}</p>
-              <div class="news-card-meta">📅 ${new Date(item.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+      });
+    }
+
+    function switchSection(section) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(section).classList.add('active');
+      currentSection = section;
+    }
+
+    // Render Home
+    function renderHome() {
+      // Home standings
+      const homeStandings = document.getElementById('home-standings');
+      homeStandings.innerHTML = DRIVERS.slice(0, 5).map((d, i) => `
+        <tr>
+          <td class="pos">${i + 1}</td>
+          <td>
+            <div class="driver-row">
+              <span class="driver-number">${d.number}</span>
+              <span class="driver-name">${d.name.split(' ').pop()}</span>
             </div>
-          </article>
-        `).join('');
-      },
-      loadStandings() {
-        document.getElementById('standings-drivers').innerHTML = `
-          <table class="standings-table">
-            <thead><tr><th>#</th><th>Piloto</th><th>Equipo</th><th style="text-align:right">Pts</th></tr></thead>
-            <tbody>${STANDINGS.map(d => `
-              <tr>
-                <td class="position">${d.position}</td>
-                <td class="driver"><div class="driver-helmet" style="background:hsl(${d.position*36},70%,50%)"></div><div>${d.Driver.givenName} ${d.Driver.familyName}</div></td>
-                <td class="team">${d.Constructors[0].name}</td>
-                <td class="points">${d.points}</td>
-              </tr>
-            `).join('')}</tbody>
-          </table>
-        `;
-        document.getElementById('standings-constructors').innerHTML = `
-          <table class="standings-table">
-            <thead><tr><th>#</th><th>Equipo</th><th style="text-align:right">Pts</th></tr></thead>
-            <tbody>${CONSTRUCTORS.map(c => `<tr><td class="position">${c.position}</td><td class="team">${c.name}</td><td class="points">${c.points}</td></tr>`).join('')}</tbody>
-          </table>
-        `;
-        const today = new Date();
-        document.getElementById('calendar').innerHTML = `<div class="calendar-list">${CALENDAR.map((race, idx) => {
-          const raceDate = new Date(race.date + 'T' + (race.time || '14:00:00'));
-          const isNext = raceDate > today && !race.Results;
-          const isCompleted = race.Results || raceDate < today;
-          const day = raceDate.getDate();
-          const month = raceDate.toLocaleDateString('es-ES', {month:'short'});
-          return `<div class="race-card ${isNext?'next':''} ${isCompleted?'completed':''}"><div class="race-round">${idx+1}</div><div class="race-info"><div class="race-name">${race.raceName}</div><div class="race-circuit">${race.Circuit.circuitName}</div></div><div class="race-date"><span class="day">${day}</span><span>${month}</span></div></div>`;
-        }).join('')}</div>`;
-        document.getElementById('results').innerHTML = '<div class="loading-spinner">Próximamente...</div>';
-      },
-      initAI() {
-        const input = document.getElementById('ai-input');
-        const sendBtn = document.getElementById('ai-send-btn');
-        const chips = document.querySelectorAll('.suggestion-chip');
-        sendBtn?.addEventListener('click', () => this.sendAI(input));
-        input?.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.sendAI(input); }});
-        chips.forEach(chip => chip.addEventListener('click', () => { if(input) input.value = chip.dataset.query; this.sendAI(input); }));
-      },
-      sendAI(input) {
-        const message = input?.value.trim();
-        if (!message) return;
-        this.addAI(message, 'user');
-        if (input) input.value = '';
-        this.showTyping();
-        setTimeout(() => {
-          this.hideTyping();
-          this.addAI(this.getAIResponse(message), 'ai');
-        }, 500);
-      },
-      getAIResponse(msg) {
-        const m = msg.toLowerCase();
-        if (m.includes('quién ganó') || m.includes('ganador')) return 'El último Gran Premio (Japón) fue ganado por **Kimi Antonelli** (Mercedes). Segunda victoria consecutiva del joven piloto italiano.';
-        if (m.includes('clasificación') || m.includes('pilotos')) return '**Clasificación 2026 Top 5:**\n\n1. **Kimi Antonelli** (Mercedes) - 75 pts\n2. **George Russell** (Mercedes) - 58 pts\n3. **Charles Leclerc** (Ferrari) - 45 pts\n4. **Oscar Piastri** (McLaren) - 38 pts\n5. **Lando Norris** (McLaren) - 32 pts';
-        if (m.includes('mundiales') && m.includes('hamilton')) return '**Lewis Hamilton** tiene **7 campeonatos mundiales** (2008, 2014, 2015, 2017, 2018, 2019, 2020). En 2026 corre para Ferrari.';
-        if (m.includes('resumen') && m.includes('noticia')) return '**Resumen noticias F1 2026:**\n\n• Antonelli (Mercedes) lidera el campeonato con 75 pts\n• Russell gana en Australia\n• Ferrari mejora con Leclerc y Hamilton\n• McLaren lucha por el título';
-        if (m.includes('calendario') || m.includes('próxima')) return '**Próxima carrera:**\n\n🏁 **Miami GP** - 1-3 Mayo 2026\n\n**Calendario 2026:** 22 carreras hasta diciembre.';
-        return 'Soy tu asistente de F1. Pregúntame sobre:\n\n• 📊 Resultados y estadísticas\n• 🏆 Clasificación de pilotos\n• 📅 Calendario de carreras\n• 📰 Noticias y resúmenes';
-      },
-      addAI(text, type) {
-        const chat = document.getElementById('ai-chat');
-        if (!chat) return;
-        const div = document.createElement('div');
-        div.className = `ai-message ai-message-${type}`;
-        div.innerHTML = `<div class="message-content">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
-      },
-      showTyping() {
-        const chat = document.getElementById('ai-chat');
-        if (!chat) return;
-        const ind = document.createElement('div');
-        ind.id = 'typing-indicator';
-        ind.className = 'ai-message ai-message-system';
-        ind.innerHTML = '<div class="message-content"><em>Escribiendo...</em></div>';
-        chat.appendChild(ind);
-        chat.scrollTop = chat.scrollHeight;
-      },
-      hideTyping() {
-        const ind = document.getElementById('typing-indicator');
-        if (ind) ind.remove();
-      }
-    };
+          </td>
+          <td class="team-name">${d.team}</td>
+          <td class="points">${d.points}</td>
+        </tr>
+      `).join('');
 
-    document.addEventListener('DOMContentLoaded', () => App.init());
+      // Next race card
+      const nextRace = CALENDAR.find(r => !r.done);
+      if (nextRace) {
+        const date = new Date(nextRace.date);
+        document.getElementById('next-race-card').innerHTML = `
+          <div class="race-round">${nextRace.round}</div>
+          <div class="race-info">
+            <div class="race-name">${nextRace.name}</div>
+            <div class="race-circuit">${nextRace.circuit}</div>
+          </div>
+          <div class="race-date">
+            <div class="race-day">${date.getDate()}</div>
+            <div class="race-month">${date.toLocaleDateString('es-ES', {month:'short'})}</div>
+          </div>
+        `;
+      }
+    }
+
+    // Render Standings
+    function renderStandings() {
+      const tbody = document.getElementById('standings-body');
+      let data = standingsType === 'drivers' ? DRIVERS : CONSTRUCTORS;
+      
+      if (standingsFilter === 'top5') data = data.slice(0, 5);
+      else if (standingsFilter === 'top10') data = data.slice(0, 10);
+
+      if (standingsType === 'drivers') {
+        tbody.innerHTML = data.map((d, i) => `
+          <tr>
+            <td class="pos">${i + 1}</td>
+            <td>
+              <div class="driver-row">
+                <span class="driver-number">${d.number}</span>
+                <span class="driver-name">${d.name.split(' ').pop()}</span>
+              </div>
+            </td>
+            <td class="team-name">${d.team}</td>
+            <td class="points">${d.points}</td>
+            <td class="trend"><span class="trend-up">▲</span></td>
+          </tr>
+        `).join('');
+      } else {
+        tbody.innerHTML = data.map((c, i) => `
+          <tr>
+            <td class="pos">${i + 1}</td>
+            <td colspan="2">
+              <div class="driver-row">
+                <span class="driver-name" style="color:${c.color}">${c.name}</span>
+              </div>
+            </td>
+            <td class="points">${c.points}</td>
+            <td class="trend"><span class="trend-up">▲</span></td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function switchStandings(type) {
+      standingsType = type;
+      renderStandings();
+    }
+
+    function filterStandings(filter) {
+      standingsFilter = filter;
+      document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      renderStandings();
+    }
+
+    // Render Calendar
+    function renderCalendar() {
+      const list = document.getElementById('calendar-list');
+      const today = new Date();
+      
+      list.innerHTML = CALENDAR.map(race => {
+        const date = new Date(race.date + 'T' + race.time);
+        const isNext = !race.done && date > today;
+        const isCompleted = race.done || date < today;
+        
+        return `
+          <div class="race-card ${isNext ? 'next' : ''} ${isCompleted ? 'completed' : ''}">
+            <div class="race-round">${race.round}</div>
+            <div class="race-info">
+              <div class="race-name">${race.name}</div>
+              <div class="race-circuit">${race.circuit}${race.winner ? ` · 🏆 ${race.winner}` : ''}</div>
+            </div>
+            <div class="race-date">
+              <div class="race-day">${date.getDate()}</div>
+              <div class="race-month">${date.toLocaleDateString('es-ES', {month:'short'})}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Countdown
+    function updateCountdown() {
+      const nextRace = CALENDAR.find(r => !r.done);
+      if (!nextRace) return;
+      
+      const raceDate = new Date(nextRace.date + 'T' + nextRace.time);
+      const now = new Date();
+      const diff = raceDate - now;
+      
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+    }
+
+    // Championship Predictor
+    function updatePredictor() {
+      const total = DRIVERS.reduce((sum, d) => sum + d.points, 0);
+      const remainingRaces = CALENDAR.filter(r => !r.done).length;
+      const maxPoints = (remainingRaces * 25) + DRIVERS[0].points;
+      
+      const container = document.getElementById('predictor-bars');
+      container.innerHTML = DRIVERS.slice(0, 5).map(d => {
+        const chance = Math.min(100, Math.round((d.points / maxPoints) * 100));
+        return `
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px">
+              <span class="predictor-name">${d.name}</span>
+              <span class="predictor-chance">${chance}%</span>
+            </div>
+            <div class="predictor-bar">
+              <div class="predictor-fill" style="width:${chance}%;background:${d.color}"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Driver Comparison
+    function updateComparison() {
+      const d1Id = document.getElementById('driver1').value;
+      const d2Id = document.getElementById('driver2').value;
+      
+      const d1 = DRIVERS.find(d => d.id === d1Id);
+      const d2 = DRIVERS.find(d => d.id === d2Id);
+      
+      document.getElementById('comp-p1').textContent = d1.points;
+      document.getElementById('comp-p2').textContent = d2.points;
+      document.getElementById('comp-w1').textContent = d1.wins;
+      document.getElementById('comp-w2').textContent = d2.wins;
+      document.getElementById('comp-po1').textContent = d1.podiums;
+      document.getElementById('comp-po2').textContent = d2.podiums;
+    }
+
+    // Theme Toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      const btn = document.querySelector('.theme-toggle');
+      btn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+    }
   </script>
 </body>
 </html>
