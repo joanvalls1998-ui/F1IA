@@ -258,7 +258,7 @@
           </div>
         </div>
         <div class="tabs">
-          <button class="tab active" onclick="filterStandings('all')">Todos</button>
+          <button class="tab active" onclick="filterStandings('all')">Todos (22)</button>
           <button class="tab" onclick="filterStandings('top5')">Top 5</button>
           <button class="tab" onclick="filterStandings('top10')">Top 10</button>
         </div>
@@ -335,20 +335,50 @@
             <option value="antonelli">K. Antonelli</option>
             <option value="russell">G. Russell</option>
             <option value="leclerc">C. Leclerc</option>
-            <option value="piastri">O. Piastri</option>
-            <option value="norris">L. Norris</option>
             <option value="hamilton">L. Hamilton</option>
+            <option value="norris">L. Norris</option>
+            <option value="piastri">O. Piastri</option>
+            <option value="bearman">O. Bearman</option>
+            <option value="gasly">P. Gasly</option>
             <option value="verstappen">M. Verstappen</option>
+            <option value="lawson">L. Lawson</option>
+            <option value="lindblad">A. Lindblad</option>
+            <option value="hadjar">I. Hadjar</option>
+            <option value="bortoleto">G. Bortoleto</option>
+            <option value="sainz">C. Sainz</option>
+            <option value="ocon">E. Ocon</option>
+            <option value="colapinto">F. Colapinto</option>
+            <option value="hulkenberg">N. Hulkenberg</option>
+            <option value="albon">A. Albon</option>
+            <option value="bottas">V. Bottas</option>
+            <option value="perez">S. Perez</option>
+            <option value="alonso">F. Alonso</option>
+            <option value="stroll">L. Stroll</option>
           </select>
           <div class="vs-badge">VS</div>
           <select class="driver-selector" id="driver2" onchange="updateComparison()">
             <option value="russell">G. Russell</option>
             <option value="antonelli">K. Antonelli</option>
             <option value="leclerc">C. Leclerc</option>
-            <option value="piastri">O. Piastri</option>
-            <option value="norris">L. Norris</option>
             <option value="hamilton">L. Hamilton</option>
+            <option value="norris">L. Norris</option>
+            <option value="piastri">O. Piastri</option>
+            <option value="bearman">O. Bearman</option>
+            <option value="gasly">P. Gasly</option>
             <option value="verstappen">M. Verstappen</option>
+            <option value="lawson">L. Lawson</option>
+            <option value="lindblad">A. Lindblad</option>
+            <option value="hadjar">I. Hadjar</option>
+            <option value="bortoleto">G. Bortoleto</option>
+            <option value="sainz">C. Sainz</option>
+            <option value="ocon">E. Ocon</option>
+            <option value="colapinto">F. Colapinto</option>
+            <option value="hulkenberg">N. Hulkenberg</option>
+            <option value="albon">A. Albon</option>
+            <option value="bottas">V. Bottas</option>
+            <option value="perez">S. Perez</option>
+            <option value="alonso">F. Alonso</option>
+            <option value="stroll">L. Stroll</option>
           </select>
         </div>
         <div class="comparison-stats">
@@ -397,26 +427,44 @@
   </div>
 
   <script>
-    // DATOS REALES 2026
+    // DATOS REALES 2026 - F1.com OFICIAL (22 pilotos, 11 equipos)
     const DRIVERS = [
-      {id:'antonelli',name:'Kimi Antonelli',number:'12',team:'Mercedes',points:75,wins:2,podiums:3,color:'var(--mercedes)'},
-      {id:'russell',name:'George Russell',number:'63',team:'Mercedes',points:58,wins:1,podiums:3,color:'var(--mercedes)'},
-      {id:'leclerc',name:'Charles Leclerc',number:'16',team:'Ferrari',points:45,wins:0,podiums:2,color:'var(--ferrari)'},
-      {id:'piastri',name:'Oscar Piastri',number:'81',team:'McLaren',points:38,wins:0,podiums:2,color:'var(--mclaren)'},
-      {id:'norris',name:'Lando Norris',number:'4',team:'McLaren',points:32,wins:0,podiums:1,color:'var(--mclaren)'},
-      {id:'hamilton',name:'Lewis Hamilton',number:'44',team:'Ferrari',points:28,wins:0,podiums:1,color:'var(--ferrari)'},
-      {id:'verstappen',name:'Max Verstappen',number:'1',team:'Red Bull Racing',points:18,wins:0,podiums:0,color:'var(--redbull)'},
-      {id:'alonso',name:'Fernando Alonso',number:'14',team:'Aston Martin',points:12,wins:0,podiums:0,color:'var(--aston)'},
-      {id:'tsunoda',name:'Yuki Tsunoda',number:'22',team:'RB',points:8,wins:0,podiums:0,color:'var(--rb)'},
-      {id:'stroll',name:'Lance Stroll',number:'18',team:'Aston Martin',points:4,wins:0,podiums:0,color:'var(--aston)'}
+      {id:'antonelli',name:'Kimi Antonelli',number:'12',team:'Mercedes',points:72,wins:2,podiums:3,color:'var(--mercedes)'},
+      {id:'russell',name:'George Russell',number:'63',team:'Mercedes',points:63,wins:1,podiums:3,color:'var(--mercedes)'},
+      {id:'leclerc',name:'Charles Leclerc',number:'16',team:'Ferrari',points:49,wins:0,podiums:2,color:'var(--ferrari)'},
+      {id:'hamilton',name:'Lewis Hamilton',number:'44',team:'Ferrari',points:41,wins:0,podiums:2,color:'var(--ferrari)'},
+      {id:'norris',name:'Lando Norris',number:'4',team:'McLaren',points:25,wins:0,podiums:1,color:'var(--mclaren)'},
+      {id:'piastri',name:'Oscar Piastri',number:'81',team:'McLaren',points:21,wins:0,podiums:1,color:'var(--mclaren)'},
+      {id:'bearman',name:'Oliver Bearman',number:'87',team:'Haas',points:17,wins:0,podiums:0,color:'var(--haas)'},
+      {id:'gasly',name:'Pierre Gasly',number:'10',team:'Alpine',points:15,wins:0,podiums:0,color:'var(--alpine)'},
+      {id:'verstappen',name:'Max Verstappen',number:'1',team:'Red Bull Racing',points:12,wins:0,podiums:0,color:'var(--redbull)'},
+      {id:'lawson',name:'Liam Lawson',number:'30',team:'RB',points:10,wins:0,podiums:0,color:'var(--rb)'},
+      {id:'lindblad',name:'Arvid Lindblad',number:'17',team:'RB',points:4,wins:0,podiums:0,color:'var(--rb)'},
+      {id:'hadjar',name:'Isack Hadjar',number:'6',team:'Red Bull Racing',points:4,wins:0,podiums:0,color:'var(--redbull)'},
+      {id:'bortoleto',name:'Gabriel Bortoleto',number:'5',team:'Audi',points:2,wins:0,podiums:0,color:'var(--kick)'},
+      {id:'sainz',name:'Carlos Sainz',number:'55',team:'Williams',points:2,wins:0,podiums:0,color:'var(--williams)'},
+      {id:'ocon',name:'Esteban Ocon',number:'31',team:'Haas',points:1,wins:0,podiums:0,color:'var(--haas)'},
+      {id:'colapinto',name:'Franco Colapinto',number:'43',team:'Alpine',points:1,wins:0,podiums:0,color:'var(--alpine)'},
+      {id:'hulkenberg',name:'Nico Hulkenberg',number:'27',team:'Audi',points:0,wins:0,podiums:0,color:'var(--kick)'},
+      {id:'albon',name:'Alexander Albon',number:'23',team:'Williams',points:0,wins:0,podiums:0,color:'var(--williams)'},
+      {id:'bottas',name:'Valtteri Bottas',number:'77',team:'Cadillac',points:0,wins:0,podiums:0,color:'var(--haas)'},
+      {id:'perez',name:'Sergio Perez',number:'11',team:'Cadillac',points:0,wins:0,podiums:0,color:'var(--haas)'},
+      {id:'alonso',name:'Fernando Alonso',number:'14',team:'Aston Martin',points:0,wins:0,podiums:0,color:'var(--aston)'},
+      {id:'stroll',name:'Lance Stroll',number:'18',team:'Aston Martin',points:0,wins:0,podiums:0,color:'var(--aston)'}
     ];
 
     const CONSTRUCTORS = [
-      {name:'Mercedes',points:133,color:'var(--mercedes)'},
-      {name:'Ferrari',points:83,color:'var(--ferrari)'},
-      {name:'McLaren',points:70,color:'var(--mclaren)'},
-      {name:'Red Bull Racing',points:30,color:'var(--redbull)'},
-      {name:'Aston Martin',points:20,color:'var(--aston)'}
+      {name:'Mercedes',points:135,color:'var(--mercedes)'},
+      {name:'Ferrari',points:90,color:'var(--ferrari)'},
+      {name:'McLaren',points:46,color:'var(--mclaren)'},
+      {name:'Haas',points:18,color:'var(--haas)'},
+      {name:'Alpine',points:16,color:'var(--alpine)'},
+      {name:'Red Bull Racing',points:16,color:'var(--redbull)'},
+      {name:'RB',points:14,color:'var(--rb)'},
+      {name:'Audi',points:2,color:'var(--kick)'},
+      {name:'Williams',points:2,color:'var(--williams)'},
+      {name:'Cadillac',points:0,color:'var(--haas)'},
+      {name:'Aston Martin',points:0,color:'var(--aston)'}
     ];
 
     const CALENDAR = [
@@ -521,6 +569,7 @@
       
       if (standingsFilter === 'top5') data = data.slice(0, 5);
       else if (standingsFilter === 'top10') data = data.slice(0, 10);
+      // 'all' muestra todo
 
       if (standingsType === 'drivers') {
         tbody.innerHTML = data.map((d, i) => `
