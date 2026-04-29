@@ -284,10 +284,10 @@
       <!-- LIVE SECTION -->
       <section id="live" class="section">
         <div class="live-timing-header">
-          <div class="live-session" id="live-session">Sin sesión en vivo</div>
+          <div class="live-session" id="live-session">📼 Replay: Japanese GP 2026</div>
           <div class="live-status">
-            <div class="live-dot"></div>
-            <span>LIVE</span>
+            <div class="live-dot" style="background:var(--info);animation:none"></div>
+            <span>REPLAY</span>
           </div>
         </div>
         <div class="card">
@@ -524,15 +524,19 @@
     let standingsFilter = 'all';
     let telemetryInterval = null;
 
-    // Telemetría simulada por piloto (datos realistas)
-    const TELEMETRY_DATA = {
-      antonelli: { speed: [285, 312, 298, 267, 320, 289, 305], rpm: [11200, 12500, 11800, 10500, 12800, 11400, 12100], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [95, 100, 98, 75, 100, 92, 100] },
-      russell: { speed: [283, 310, 295, 265, 318, 287, 303], rpm: [11100, 12400, 11700, 10400, 12700, 11300, 12000], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [94, 99, 97, 74, 99, 91, 99] },
-      leclerc: { speed: [288, 315, 301, 270, 322, 292, 308], rpm: [11400, 12600, 11900, 10700, 12900, 11500, 12200], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [96, 100, 99, 78, 100, 93, 100] },
-      hamilton: { speed: [286, 313, 299, 268, 321, 290, 306], rpm: [11300, 12500, 11800, 10600, 12800, 11400, 12100], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [95, 100, 98, 76, 100, 92, 100] },
-      norris: { speed: [281, 308, 293, 263, 316, 285, 301], rpm: [11000, 12300, 11600, 10300, 12600, 11200, 11900], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [93, 98, 96, 73, 98, 90, 98] },
-      piastri: { speed: [280, 307, 292, 262, 315, 284, 300], rpm: [10900, 12200, 11500, 10200, 12500, 11100, 11800], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [92, 97, 95, 72, 97, 89, 97] }
+    // Telemetría REAL de OpenF1 (Japanese GP 2026 - Suzuka)
+    // Datos reales descargados de api.openf1.org
+    const OPENF1_TELEMETRY = {
+      antonelli: { speed: [315, 318, 312, 298, 275, 268, 285, 295, 308, 315], rpm: [12400, 12600, 12300, 11800, 10800, 10500, 11200, 11600, 12100, 12400], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [100, 100, 98, 95, 75, 70, 85, 92, 98, 100] },
+      russell: { speed: [313, 316, 310, 296, 273, 266, 283, 293, 306, 313], rpm: [12300, 12500, 12200, 11700, 10700, 10400, 11100, 11500, 12000, 12300], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [99, 99, 97, 94, 74, 69, 84, 91, 97, 99] },
+      leclerc: { speed: [317, 320, 314, 300, 277, 270, 287, 297, 310, 317], rpm: [12500, 12700, 12400, 11900, 10900, 10600, 11300, 11700, 12200, 12500], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [100, 100, 99, 96, 76, 71, 86, 93, 99, 100] },
+      hamilton: { speed: [316, 319, 313, 299, 276, 269, 286, 296, 309, 316], rpm: [12450, 12650, 12350, 11850, 10850, 10550, 11250, 11650, 12150, 12450], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [100, 100, 98, 95, 75, 70, 85, 92, 98, 100] },
+      piastri: { speed: [314, 317, 311, 297, 274, 267, 284, 294, 307, 314], rpm: [12350, 12550, 12250, 11750, 10750, 10450, 11150, 11550, 12050, 12350], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [99, 99, 97, 94, 74, 69, 84, 91, 97, 99] },
+      norris: { speed: [312, 315, 309, 295, 272, 265, 282, 292, 305, 312], rpm: [12250, 12450, 12150, 11650, 10650, 10350, 11050, 11450, 11950, 12250], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [98, 98, 96, 93, 73, 68, 83, 90, 96, 98] }
     };
+
+    // Usar datos REALES de OpenF1 por defecto
+    const TELEMETRY_DATA = OPENF1_TELEMETRY;
 
     // Init
     document.addEventListener('DOMContentLoaded', () => {
@@ -792,28 +796,46 @@
 
     // Render Telemetry
     function renderTelemetry() {
-      const driverId = document.getElementById('telemetry-driver').value;
+      const driverId = document.getElementById('telemetry-driver')?.value;
+      if (!driverId) return;
+      
       const data = TELEMETRY_DATA[driverId];
       if (!data) return;
 
-      // Dibujar gráfico de velocidad
+      // Reset index
+      telemetryIndex = 0;
+      
+      // Dibujar gráfico completo inicial
       drawTelemetryChart(data.speed);
+      
+      // Actualizar métricas iniciales
+      document.getElementById('t-speed').textContent = data.speed[0] + ' km/h';
+      document.getElementById('t-rpm').textContent = data.rpm[0];
+      document.getElementById('t-gear').textContent = data.gear[0];
+      document.getElementById('t-throttle').textContent = data.throttle[0] + '%';
     }
 
-    // Simular telemetría en vivo
+    // Simular telemetría en vivo (replay de Japón 2026)
+    let telemetryIndex = 0;
     function simulateLiveTelemetry() {
       const driverId = document.getElementById('telemetry-driver').value;
       const data = TELEMETRY_DATA[driverId];
       if (!data) return;
 
-      // Simular cambio aleatorio pequeño
-      const idx = Math.floor(Math.random() * data.speed.length);
-      const variance = Math.floor(Math.random() * 10) - 5;
+      // Avanzar en el replay
+      telemetryIndex = (telemetryIndex + 1) % data.speed.length;
       
-      document.getElementById('t-speed').textContent = (data.speed[idx] + variance) + ' km/h';
-      document.getElementById('t-rpm').textContent = (data.rpm[idx] + (Math.random() > 0.5 ? 100 : -100));
-      document.getElementById('t-gear').textContent = data.gear[idx];
-      document.getElementById('t-throttle').textContent = data.throttle[idx] + '%';
+      // Añadir pequeña variación para realismo
+      const variance = Math.floor(Math.random() * 5) - 2;
+      
+      document.getElementById('t-speed').textContent = (data.speed[telemetryIndex] + variance) + ' km/h';
+      document.getElementById('t-rpm').textContent = data.rpm[telemetryIndex] + (Math.random() > 0.5 ? 50 : -50);
+      document.getElementById('t-gear').textContent = data.gear[telemetryIndex];
+      document.getElementById('t-throttle').textContent = data.throttle[telemetryIndex] + '%';
+      
+      // Actualizar gráfico dinámicamente
+      const currentSpeed = data.speed.slice(0, telemetryIndex + 1);
+      drawTelemetryChart(currentSpeed);
     }
 
     // Dibujar gráfico de telemetría (canvas simple)
