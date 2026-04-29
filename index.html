@@ -6,12 +6,104 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>F1IA - Formula 1 Intelligence App</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2315151e'/><text x='50' y='68' font-family='Arial Black' font-size='50' font-weight='900' font-style='italic' text-anchor='middle' fill='%23ffffff'>F1</text><text x='50' y='90' font-family='Arial Black' font-size='24' font-weight='900' font-style='italic' text-anchor='middle' fill='%23e10600'>IA</text></svg>">
+  <style>
+    :root{--f1-red:#e10600;--f1-red-dark:#b80500;--f1-black:#15151e;--f1-dark:#1a1a24;--f1-gray:#2a2a36;--f1-light:#383844;--f1-white:#ffffff;--success:#00ff88;--error:#ff4444}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%;overflow:hidden}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--f1-black);color:var(--f1-white);font-size:15px;line-height:1.5}
+    .topbar{position:fixed;top:0;left:0;right:0;height:56px;background:linear-gradient(135deg,var(--f1-red),var(--f1-red-dark));display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:1000;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
+    .topbar-brand{display:flex;align-items:center;gap:8px}
+    .f1ia-logo{display:flex;align-items:center;gap:2px;font-weight:900;font-style:italic;font-size:18px}
+    .f1ia-logo-f1{color:var(--f1-white);background:var(--f1-black);padding:2px 6px;border-radius:4px}
+    .f1ia-logo-ia{color:var(--f1-white)}
+    .topbar-title{font-weight:600;font-size:18px;letter-spacing:0.5px}
+    .topbar-status{display:flex;align-items:center;gap:8px}
+    .live-badge{background:var(--error);color:var(--f1-white);font-size:11px;font-weight:700;padding:3px 8px;border-radius:12px;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+    .connection-status{font-size:11px;opacity:0.8}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:var(--f1-dark);display:flex;justify-content:space-around;align-items:center;border-top:1px solid var(--f1-light);z-index:1000}
+    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--f1-light);font-size:11px;font-weight:500;cursor:pointer;padding:8px;transition:color 0.2s}
+    .nav-btn svg{width:24px;height:24px}
+    .nav-btn.active{color:var(--f1-red)}
+    .nav-btn:hover:not(.active){color:var(--f1-white)}
+    .main-content{position:absolute;top:56px;bottom:64px;left:0;right:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .section{display:none;padding:16px}
+    .section.active{display:block}
+    .section-header{margin-bottom:16px}
+    .section-header h1{font-size:24px;font-weight:700;margin-bottom:8px}
+    .filter-tabs{display:flex;gap:4px;overflow-x:auto}
+    .filter-tab{background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:6px 12px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;cursor:pointer}
+    .filter-tab.active{background:var(--f1-red);border-color:var(--f1-red)}
+    .news-feed{display:flex;flex-direction:column;gap:16px;padding-bottom:32px}
+    .news-card{background:var(--f1-dark);border-radius:12px;overflow:hidden;border:1px solid var(--f1-light);transition:transform 0.2s,border-color 0.2s}
+    .news-card:hover{transform:translateY(-2px);border-color:var(--f1-red)}
+    .news-card-content{padding:16px}
+    .news-card-source{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--f1-red);font-weight:600;text-transform:uppercase;margin-bottom:4px}
+    .news-card-title{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:4px}
+    .news-card-excerpt{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;margin-bottom:8px}
+    .news-card-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,0.5)}
+    .tabs{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto;border-bottom:1px solid var(--f1-light);padding-bottom:8px}
+    .tab-btn{background:none;border:none;color:var(--f1-light);padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border-radius:8px;transition:all 0.2s}
+    .tab-btn.active{background:var(--f1-red);color:var(--f1-white)}
+    .tab-btn:hover:not(.active){background:var(--f1-gray);color:var(--f1-white)}
+    .tab-content{position:relative}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    .standings-table{width:100%;border-collapse:collapse;background:var(--f1-dark);border-radius:12px;overflow:hidden}
+    .standings-table th,.standings-table td{padding:8px 16px;text-align:left;border-bottom:1px solid var(--f1-light)}
+    .standings-table th{background:var(--f1-gray);font-size:11px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+    .standings-table tr:last-child td{border-bottom:none}
+    .standings-table .position{font-weight:700;width:40px}
+    .standings-table .driver{display:flex;align-items:center;gap:8px}
+    .driver-helmet{width:24px;height:24px;border-radius:50%;background:var(--f1-light)}
+    .standings-table .team{font-size:13px;color:rgba(255,255,255,0.7)}
+    .standings-table .points{font-weight:700;text-align:right}
+    .calendar-list{display:flex;flex-direction:column;gap:8px}
+    .race-card{background:var(--f1-dark);border-radius:8px;padding:16px;border:1px solid var(--f1-light);display:flex;align-items:center;gap:16px}
+    .race-card.completed{opacity:0.6}
+    .race-card.next{border-color:var(--f1-red);background:linear-gradient(135deg,rgba(225,6,0,0.1),var(--f1-dark))}
+    .race-round{background:var(--f1-red);color:var(--f1-white);font-weight:700;font-size:13px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .race-info{flex:1}
+    .race-name{font-weight:600;margin-bottom:2px}
+    .race-circuit{font-size:13px;color:rgba(255,255,255,0.6)}
+    .race-date{text-align:right;font-size:13px;color:rgba(255,255,255,0.7)}
+    .race-date .day{font-weight:700;font-size:18px;display:block}
+    .live-timing-container{display:flex;flex-direction:column;gap:16px}
+    .timing-header{background:linear-gradient(135deg,var(--f1-red),var(--f1-red-dark));padding:16px;border-radius:12px;display:flex;align-items:center;justify-content:space-between}
+    .timing-header h2{font-size:18px;font-weight:700}
+    .live-indicator{background:var(--f1-black);color:var(--f1-white);font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px;animation:pulse 2s infinite}
+    .loading-spinner{text-align:center;padding:32px;color:rgba(255,255,255,0.5);font-size:13px}
+    .season-selector select{background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:8px;border-radius:8px;font-size:15px}
+    .ai-container{display:flex;flex-direction:column;height:calc(100vh - 200px)}
+    .ai-chat{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;padding:16px 0}
+    .ai-message{display:flex;margin-bottom:8px}
+    .ai-message-user{justify-content:flex-end}
+    .ai-message-system,.ai-message-ai{justify-content:flex-start}
+    .message-content{max-width:80%;padding:8px 16px;border-radius:12px;line-height:1.5}
+    .ai-message-user .message-content{background:var(--f1-red);color:var(--f1-white);border-bottom-right-radius:4px}
+    .ai-message-system .message-content{background:var(--f1-gray);color:var(--f1-white);border-bottom-left-radius:4px}
+    .ai-message-ai .message-content{background:var(--f1-light);color:var(--f1-white);border-bottom-left-radius:4px}
+    .message-content ul{margin-left:16px;margin-top:4px}
+    .message-content li{margin-bottom:4px}
+    .message-content strong{color:var(--f1-red)}
+    .ai-input-container{display:flex;gap:8px;padding:16px 0;border-top:1px solid var(--f1-light)}
+    #ai-input{flex:1;background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:12px;color:var(--f1-white);padding:8px 16px;font-size:15px;font-family:inherit;resize:none;min-height:44px}
+    #ai-input:focus{outline:none;border-color:var(--f1-red)}
+    .ai-send-btn{background:var(--f1-red);border:none;border-radius:12px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .ai-send-btn:hover{background:var(--f1-red-dark)}
+    .ai-send-btn svg{width:20px;height:20px}
+    .ai-suggestions{display:flex;flex-wrap:wrap;gap:4px;padding-top:8px}
+    .suggestion-chip{background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:6px 12px;border-radius:20px;font-size:13px;cursor:pointer}
+    .suggestion-chip:hover{background:var(--f1-light);border-color:var(--f1-red)}
+    @media(min-width:768px){.main-content{padding-bottom:80px}.bottom-nav{max-width:500px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}}
+    @media(min-width:1024px){body{max-width:1200px;margin:0 auto}.main-content{left:auto;right:auto}.bottom-nav{max-width:1200px}}
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:var(--f1-dark)}
+    ::-webkit-scrollbar-thumb{background:var(--f1-light);border-radius:3px}
+  </style>
 </head>
 <body>
-  <!-- Top Bar -->
   <header class="topbar">
     <div class="topbar-brand">
       <div class="f1ia-logo">
@@ -21,12 +113,11 @@
       <span class="topbar-title">F1IA</span>
     </div>
     <div class="topbar-status">
-      <span class="live-badge" id="live-status">● LIVE</span>
+      <span class="live-badge">● LIVE</span>
       <span class="connection-status" id="connection-status">🟢 Online</span>
     </div>
   </header>
 
-  <!-- Navigation -->
   <nav class="bottom-nav">
     <button class="nav-btn active" data-section="news">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z"/></svg>
@@ -46,9 +137,7 @@
     </button>
   </nav>
 
-  <!-- Main Content -->
   <main class="main-content">
-    <!-- NEWS SECTION -->
     <section id="news" class="section active">
       <div class="section-header">
         <h1>📰 Noticias F1</h1>
@@ -64,7 +153,6 @@
       </div>
     </section>
 
-    <!-- RESULTS SECTION -->
     <section id="results" class="section">
       <div class="section-header">
         <h1>🏁 Resultados y Clasificación</h1>
@@ -85,22 +173,13 @@
       </div>
 
       <div class="tab-content">
-        <div id="standings-drivers" class="tab-panel active">
-          <div class="loading-spinner">Cargando clasificación...</div>
-        </div>
-        <div id="standings-constructors" class="tab-panel">
-          <div class="loading-spinner">Cargando constructores...</div>
-        </div>
-        <div id="calendar" class="tab-panel">
-          <div class="loading-spinner">Cargando calendario...</div>
-        </div>
-        <div id="results" class="tab-panel">
-          <div class="loading-spinner">Cargando resultados...</div>
-        </div>
+        <div id="standings-drivers" class="tab-panel active"></div>
+        <div id="standings-constructors" class="tab-panel"></div>
+        <div id="calendar" class="tab-panel"></div>
+        <div id="results" class="tab-panel"></div>
       </div>
     </section>
 
-    <!-- LIVE TIMING SECTION -->
     <section id="live" class="section">
       <div class="section-header">
         <h1>⏱️ Live Timing</h1>
@@ -109,39 +188,21 @@
           <span class="session-countdown" id="countdown">--:--:--</span>
         </div>
       </div>
-
       <div class="live-timing-container">
         <div class="timing-header">
           <h2 id="timing-session-title">Sin sesión en vivo</h2>
           <span class="live-indicator">🔴 EN VIVO</span>
         </div>
-
-        <!-- Driver Standings Live -->
         <div class="live-standings" id="live-standings">
-          <div class="loading-spinner">Esperando sesión...</div>
-        </div>
-
-        <!-- Telemetry Panel -->
-        <div class="telemetry-panel" id="telemetry-panel">
-          <h3>Telemetría</h3>
-          <div class="telemetry-selector">
-            <select id="telemetry-driver">
-              <option value="">Selecciona piloto</option>
-            </select>
-          </div>
-          <div class="telemetry-data" id="telemetry-data">
-            <p class="telemetry-placeholder">Selecciona un piloto para ver telemetría</p>
-          </div>
+          <div class="loading-spinner">No hay sesiones en vivo ahora.<br><small>Los datos aparecen durante FP1, Qualy, Sprint y Carrera</small></div>
         </div>
       </div>
     </section>
 
-    <!-- AI SECTION -->
     <section id="ai" class="section">
       <div class="section-header">
         <h1>🤖 Asistente IA F1</h1>
       </div>
-
       <div class="ai-container">
         <div class="ai-chat" id="ai-chat">
           <div class="ai-message ai-message-system">
@@ -156,14 +217,12 @@
             </div>
           </div>
         </div>
-
         <div class="ai-input-container">
           <textarea id="ai-input" placeholder="Pregunta algo sobre F1..." rows="2"></textarea>
           <button id="ai-send-btn" class="ai-send-btn">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
           </button>
         </div>
-
         <div class="ai-suggestions">
           <button class="suggestion-chip" data-query="¿Quién ganó el último GP?">¿Quién ganó el último GP?</button>
           <button class="suggestion-chip" data-query="Clasificación de pilotos 2026">Clasificación 2026</button>
@@ -174,9 +233,186 @@
     </section>
   </main>
 
-  <!-- Scripts v2 -->
-  <script src="js/apis.js?v=2"></script>
-  <script src="js/ai.js?v=2"></script>
-  <script src="js/app.js?v=2"></script>
+  <script>
+    // DATOS CACHEADOS
+    const STANDINGS = [
+      {position:"1",points:"25",Driver:{givenName:"Max",familyName:"Verstappen",permanentNumber:"1"},Constructors:[{name:"Red Bull Racing"}]},
+      {position:"2",points:"18",Driver:{givenName:"Charles",familyName:"Leclerc",permanentNumber:"16"},Constructors:[{name:"Ferrari"}]},
+      {position:"3",points:"15",Driver:{givenName:"Lando",familyName:"Norris",permanentNumber:"4"},Constructors:[{name:"McLaren"}]},
+      {position:"4",points:"12",Driver:{givenName:"Carlos",familyName:"Sainz",permanentNumber:"55"},Constructors:[{name:"Ferrari"}]},
+      {position:"5",points:"10",Driver:{givenName:"Oscar",familyName:"Piastri",permanentNumber:"81"},Constructors:[{name:"McLaren"}]},
+      {position:"6",points:"8",Driver:{givenName:"George",familyName:"Russell",permanentNumber:"63"},Constructors:[{name:"Mercedes"}]},
+      {position:"7",points:"6",Driver:{givenName:"Lewis",familyName:"Hamilton",permanentNumber:"44"},Constructors:[{name:"Ferrari"}]},
+      {position:"8",points:"4",Driver:{givenName:"Sergio",familyName:"Perez",permanentNumber:"11"},Constructors:[{name:"Red Bull Racing"}]},
+      {position:"9",points:"2",Driver:{givenName:"Fernando",familyName:"Alonso",permanentNumber:"14"},Constructors:[{name:"Aston Martin"}]},
+      {position:"10",points:"1",Driver:{givenName:"Lance",familyName:"Stroll",permanentNumber:"18"},Constructors:[{name:"Aston Martin"}]}
+    ];
+    const CONSTRUCTORS = [
+      {position:"1",points:"43",name:"Red Bull Racing"},
+      {position:"2",points:"33",name:"Ferrari"},
+      {position:"3",points:"25",name:"McLaren"},
+      {position:"4",points:"14",name:"Mercedes"},
+      {position:"5",points:"3",name:"Aston Martin"}
+    ];
+    const CALENDAR = [
+      {round:"1",raceName:"Bahrain Grand Prix",Circuit:{circuitName:"Bahrain International Circuit"},date:"2026-03-06",time:"15:00:00",Results:[{position:"1"}]},
+      {round:"2",raceName:"Saudi Arabian Grand Prix",Circuit:{circuitName:"Jeddah Corniche Circuit"},date:"2026-03-14",time:"17:00:00",Results:[{position:"1"}]},
+      {round:"3",raceName:"Australian Grand Prix",Circuit:{circuitName:"Albert Park Circuit"},date:"2026-03-29",time:"05:00:00",Results:[{position:"1"}]},
+      {round:"4",raceName:"Japanese Grand Prix",Circuit:{circuitName:"Suzuka Circuit"},date:"2026-04-05",time:"06:00:00",Results:[{position:"1"}]},
+      {round:"5",raceName:"Chinese Grand Prix",Circuit:{circuitName:"Shanghai International Circuit"},date:"2026-04-19",time:"08:00:00",Results:[{position:"1"}]},
+      {round:"6",raceName:"Miami Grand Prix",Circuit:{circuitName:"Miami International Autodrome"},date:"2026-05-03",time:"20:30:00"},
+      {round:"7",raceName:"Emilia Romagna Grand Prix",Circuit:{circuitName:"Autodromo Enzo e Dino Ferrari"},date:"2026-05-17",time:"13:00:00"},
+      {round:"8",raceName:"Monaco Grand Prix",Circuit:{circuitName:"Circuit de Monaco"},date:"2026-05-24",time:"13:00:00"},
+      {round:"9",raceName:"Spanish Grand Prix",Circuit:{circuitName:"Circuit de Barcelona-Catalunya"},date:"2026-06-07",time:"13:00:00"},
+      {round:"10",raceName:"Canadian Grand Prix",Circuit:{circuitName:"Circuit Gilles Villeneuve"},date:"2026-06-14",time:"18:00:00"}
+    ];
+    const NEWS = [
+      {title:"Verstappen domina la temporada 2026",description:"Max Verstappen lidera el campeonato con 25 puntos tras las primeras carreras.",pubDate:new Date().toISOString(),link:"https://www.formula1.com",source:"F1.com"},
+      {title:"Ferrari muestra mejoras significativas",description:"Leclerc y Sainz consiguen podios consecutivos para el equipo italiano.",pubDate:new Date(Date.now()-86400000).toISOString(),link:"https://www.formula1.com",source:"F1.com"},
+      {title:"McLaren sorprende con su ritmo",description:"Norris y Piastri demuestran que McLaren es candidato al título.",pubDate:new Date(Date.now()-172800000).toISOString(),link:"https://www.f1technical.net",source:"F1 Technical"},
+      {title:"Hamilton se adapta a Ferrari",description:"Lewis Hamilton comenta sobre su transición al equipo italiano.",pubDate:new Date(Date.now()-259200000).toISOString(),link:"https://www.reddit.com/r/formula1",source:"Reddit F1"}
+    ];
+
+    // APP LOGIC
+    const App = {
+      currentSection: 'news',
+      init() {
+        this.bindNav();
+        this.bindTabs();
+        this.loadSection('news');
+      },
+      bindNav() {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+          btn.addEventListener('click', () => this.navigateTo(btn.dataset.section));
+        });
+      },
+      bindTabs() {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => this.switchTab(btn.dataset.tab));
+        });
+        document.querySelectorAll('.filter-tab').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            this.loadNews(btn.dataset.filter);
+          });
+        });
+      },
+      navigateTo(section) {
+        if (section === this.currentSection) return;
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.section === section));
+        document.querySelectorAll('.section').forEach(sec => sec.classList.toggle('active', sec.id === section));
+        this.currentSection = section;
+        this.loadSection(section);
+      },
+      switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
+        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === tab));
+      },
+      loadSection(section) {
+        if (section === 'news') this.loadNews();
+        else if (section === 'results') this.loadStandings();
+        else if (section === 'ai') this.initAI();
+      },
+      loadNews() {
+        const feed = document.getElementById('news-feed');
+        if (!feed) return;
+        feed.innerHTML = NEWS.map(item => `
+          <article class="news-card" onclick="window.open('${item.link}','_blank')">
+            <div class="news-card-content">
+              <div class="news-card-source">${item.source}</div>
+              <h3 class="news-card-title">${item.title}</h3>
+              <p class="news-card-excerpt">${item.description}</p>
+              <div class="news-card-meta">📅 ${new Date(item.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+            </div>
+          </article>
+        `).join('');
+      },
+      loadStandings() {
+        document.getElementById('standings-drivers').innerHTML = `
+          <table class="standings-table">
+            <thead><tr><th>#</th><th>Piloto</th><th>Equipo</th><th style="text-align:right">Pts</th></tr></thead>
+            <tbody>${STANDINGS.map(d => `
+              <tr>
+                <td class="position">${d.position}</td>
+                <td class="driver"><div class="driver-helmet" style="background:hsl(${d.position*36},70%,50%)"></div><div>${d.Driver.givenName} ${d.Driver.familyName}</div></td>
+                <td class="team">${d.Constructors[0].name}</td>
+                <td class="points">${d.points}</td>
+              </tr>
+            `).join('')}</tbody>
+          </table>
+        `;
+        document.getElementById('standings-constructors').innerHTML = `
+          <table class="standings-table">
+            <thead><tr><th>#</th><th>Equipo</th><th style="text-align:right">Pts</th></tr></thead>
+            <tbody>${CONSTRUCTORS.map(c => `<tr><td class="position">${c.position}</td><td class="team">${c.name}</td><td class="points">${c.points}</td></tr>`).join('')}</tbody>
+          </table>
+        `;
+        const today = new Date();
+        document.getElementById('calendar').innerHTML = `<div class="calendar-list">${CALENDAR.map((race, idx) => {
+          const raceDate = new Date(race.date + 'T' + (race.time || '14:00:00'));
+          const isNext = raceDate > today && !race.Results;
+          const isCompleted = race.Results || raceDate < today;
+          const day = raceDate.getDate();
+          const month = raceDate.toLocaleDateString('es-ES', {month:'short'});
+          return `<div class="race-card ${isNext?'next':''} ${isCompleted?'completed':''}"><div class="race-round">${idx+1}</div><div class="race-info"><div class="race-name">${race.raceName}</div><div class="race-circuit">${race.Circuit.circuitName}</div></div><div class="race-date"><span class="day">${day}</span><span>${month}</span></div></div>`;
+        }).join('')}</div>`;
+        document.getElementById('results').innerHTML = '<div class="loading-spinner">Próximamente...</div>';
+      },
+      initAI() {
+        const input = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('ai-send-btn');
+        const chips = document.querySelectorAll('.suggestion-chip');
+        sendBtn?.addEventListener('click', () => this.sendAI(input));
+        input?.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.sendAI(input); }});
+        chips.forEach(chip => chip.addEventListener('click', () => { if(input) input.value = chip.dataset.query; this.sendAI(input); }));
+      },
+      sendAI(input) {
+        const message = input?.value.trim();
+        if (!message) return;
+        this.addAI(message, 'user');
+        if (input) input.value = '';
+        this.showTyping();
+        setTimeout(() => {
+          this.hideTyping();
+          this.addAI(this.getAIResponse(message), 'ai');
+        }, 500);
+      },
+      getAIResponse(msg) {
+        const m = msg.toLowerCase();
+        if (m.includes('quién ganó') || m.includes('ganador')) return 'El último Gran Premio fue ganado por **Max Verstappen** (Red Bull Racing). Carrera dominante desde la pole.';
+        if (m.includes('clasificación') || m.includes('pilotos')) return '**Clasificación 2026 Top 5:**\n\n1. **Max Verstappen** (Red Bull) - 25 pts\n2. **Charles Leclerc** (Ferrari) - 18 pts\n3. **Lando Norris** (McLaren) - 15 pts\n4. **Carlos Sainz** (Ferrari) - 12 pts\n5. **Oscar Piastri** (McLaren) - 10 pts';
+        if (m.includes('mundiales') && m.includes('hamilton')) return '**Lewis Hamilton** tiene **7 campeonatos mundiales** (2008, 2014, 2015, 2017, 2018, 2019, 2020), empatando el récord de Schumacher.';
+        if (m.includes('resumen') && m.includes('noticia')) return '**Resumen noticias F1:**\n\n• Verstappen lidera el campeonato 2026\n• Ferrari muestra mejoras con Leclerc y Sainz\n• McLaren sorprende con su ritmo\n• Hamilton se adapta bien a Ferrari';
+        if (m.includes('calendario') || m.includes('próxima')) return '**Próximas carreras 2026:**\n\n• **R6** Miami GP - 3 Mayo\n• **R7** Emilia Romagna - 17 Mayo\n• **R8** Mónaco - 24 Mayo\n• **R9** España - 7 Junio';
+        return 'Soy tu asistente de F1. Pregúntame sobre:\n\n• 📊 Resultados y estadísticas\n• 🏆 Clasificación de pilotos\n• 📅 Calendario de carreras\n• 📰 Noticias y resúmenes';
+      },
+      addAI(text, type) {
+        const chat = document.getElementById('ai-chat');
+        if (!chat) return;
+        const div = document.createElement('div');
+        div.className = `ai-message ai-message-${type}`;
+        div.innerHTML = `<div class="message-content">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+      },
+      showTyping() {
+        const chat = document.getElementById('ai-chat');
+        if (!chat) return;
+        const ind = document.createElement('div');
+        ind.id = 'typing-indicator';
+        ind.className = 'ai-message ai-message-system';
+        ind.innerHTML = '<div class="message-content"><em>Escribiendo...</em></div>';
+        chat.appendChild(ind);
+        chat.scrollTop = chat.scrollHeight;
+      },
+      hideTyping() {
+        const ind = document.getElementById('typing-indicator');
+        if (ind) ind.remove();
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => App.init());
+  </script>
 </body>
 </html>
