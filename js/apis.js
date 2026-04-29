@@ -31,15 +31,25 @@ const F1_APIS = {
 };
 
 /**
- * Fetch con fallback automático
+ * Proxy CORS para evitar bloqueos del navegador
+ * Usa allorigins.win como proxy gratuito
+ */
+function corsProxy(url) {
+  return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+}
+
+/**
+ * Fetch con fallback automático y proxy CORS
  * Intenta API primaria, si falla usa secundaria
  */
 async function fetchWithFallback(endpoints, options = {}) {
   const { primary, secondary } = endpoints;
   
+  // Intentar con proxy CORS primero
   try {
-    console.log('🔵 API Primaria:', primary);
-    const response = await fetch(primary, options);
+    console.log('🔵 API Primaria (proxy):', primary);
+    const proxyUrl = corsProxy(primary);
+    const response = await fetch(proxyUrl, options);
     
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
@@ -54,8 +64,9 @@ async function fetchWithFallback(endpoints, options = {}) {
     }
     
     try {
-      console.log('🟡 API Secundaria:', secondary);
-      const response = await fetch(secondary, options);
+      console.log('🟡 API Secundaria (proxy):', secondary);
+      const proxyUrl = corsProxy(secondary);
+      const response = await fetch(proxyUrl, options);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
@@ -70,7 +81,7 @@ async function fetchWithFallback(endpoints, options = {}) {
 }
 
 /**
- * Fetch para múltiples fuentes (noticias RSS)
+ * Fetch para múltiples fuentes (noticias RSS) con proxy CORS
  * Intenta todas las fuentes y combina resultados
  */
 async function fetchFromMultiple(sources, options = {}) {
@@ -78,8 +89,9 @@ async function fetchFromMultiple(sources, options = {}) {
   
   for (const source of sources) {
     try {
-      console.log('📰 Fetching:', source);
-      const response = await fetch(source, options);
+      console.log('📰 Fetching (proxy):', source);
+      const proxyUrl = corsProxy(source);
+      const response = await fetch(proxyUrl, options);
       
       if (response.ok) {
         const text = await response.text();
