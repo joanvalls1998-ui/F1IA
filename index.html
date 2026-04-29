@@ -303,24 +303,37 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">Telemetría</div>
+            <select class="driver-selector" id="telemetry-driver" onchange="renderTelemetry()" style="font-size:12px;padding:4px 8px;">
+              <option value="antonelli">Antonelli</option>
+              <option value="russell">Russell</option>
+              <option value="leclerc">Leclerc</option>
+              <option value="hamilton">Hamilton</option>
+              <option value="norris">Norris</option>
+              <option value="piastri">Piastri</option>
+            </select>
           </div>
           <div class="telemetry-grid">
             <div class="telemetry-metric">
               <div class="telemetry-label">Velocidad</div>
-              <div class="telemetry-value">-- km/h</div>
+              <div class="telemetry-value" id="t-speed">-- km/h</div>
             </div>
             <div class="telemetry-metric">
               <div class="telemetry-label">RPM</div>
-              <div class="telemetry-value">--</div>
+              <div class="telemetry-value" id="t-rpm">--</div>
             </div>
             <div class="telemetry-metric">
               <div class="telemetry-label">Marcha</div>
-              <div class="telemetry-value">N</div>
+              <div class="telemetry-value" id="t-gear">N</div>
             </div>
             <div class="telemetry-metric">
               <div class="telemetry-label">Throttle</div>
-              <div class="telemetry-value">--%</div>
+              <div class="telemetry-value" id="t-throttle">--%</div>
             </div>
+          </div>
+          <!-- Gráfico de telemetría -->
+          <div style="margin-top:16px;padding:12px;background:var(--f1-black);border-radius:8px;">
+            <div style="font-size:11px;color:var(--f1-light);margin-bottom:8px;">Velocidad por Sector</div>
+            <canvas id="telemetry-chart" height="100"></canvas>
           </div>
         </div>
       </section>
@@ -509,6 +522,17 @@
     let currentSection = 'home';
     let standingsType = 'drivers';
     let standingsFilter = 'all';
+    let telemetryInterval = null;
+
+    // Telemetría simulada por piloto (datos realistas)
+    const TELEMETRY_DATA = {
+      antonelli: { speed: [285, 312, 298, 267, 320, 289, 305], rpm: [11200, 12500, 11800, 10500, 12800, 11400, 12100], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [95, 100, 98, 75, 100, 92, 100] },
+      russell: { speed: [283, 310, 295, 265, 318, 287, 303], rpm: [11100, 12400, 11700, 10400, 12700, 11300, 12000], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [94, 99, 97, 74, 99, 91, 99] },
+      leclerc: { speed: [288, 315, 301, 270, 322, 292, 308], rpm: [11400, 12600, 11900, 10700, 12900, 11500, 12200], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [96, 100, 99, 78, 100, 93, 100] },
+      hamilton: { speed: [286, 313, 299, 268, 321, 290, 306], rpm: [11300, 12500, 11800, 10600, 12800, 11400, 12100], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [95, 100, 98, 76, 100, 92, 100] },
+      norris: { speed: [281, 308, 293, 263, 316, 285, 301], rpm: [11000, 12300, 11600, 10300, 12600, 11200, 11900], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [93, 98, 96, 73, 98, 90, 98] },
+      piastri: { speed: [280, 307, 292, 262, 315, 284, 300], rpm: [10900, 12200, 11500, 10200, 12500, 11100, 11800], gear: [7, 8, 7, 6, 8, 7, 8], throttle: [92, 97, 95, 72, 97, 89, 97] }
+    };
 
     // Init
     document.addEventListener('DOMContentLoaded', () => {
@@ -517,10 +541,12 @@
       renderStandings();
       renderCalendar();
       renderHistory();
+      renderTelemetry();
       updateCountdown();
       updatePredictor();
       updateComparison();
       setInterval(updateCountdown, 1000);
+      setInterval(simulateLiveTelemetry, 2000); // Actualiza telemetría cada 2s
     });
 
     // Navigation
@@ -762,6 +788,89 @@
           </div>
         `;
       }).join('');
+    }
+
+    // Render Telemetry
+    function renderTelemetry() {
+      const driverId = document.getElementById('telemetry-driver').value;
+      const data = TELEMETRY_DATA[driverId];
+      if (!data) return;
+
+      // Dibujar gráfico de velocidad
+      drawTelemetryChart(data.speed);
+    }
+
+    // Simular telemetría en vivo
+    function simulateLiveTelemetry() {
+      const driverId = document.getElementById('telemetry-driver').value;
+      const data = TELEMETRY_DATA[driverId];
+      if (!data) return;
+
+      // Simular cambio aleatorio pequeño
+      const idx = Math.floor(Math.random() * data.speed.length);
+      const variance = Math.floor(Math.random() * 10) - 5;
+      
+      document.getElementById('t-speed').textContent = (data.speed[idx] + variance) + ' km/h';
+      document.getElementById('t-rpm').textContent = (data.rpm[idx] + (Math.random() > 0.5 ? 100 : -100));
+      document.getElementById('t-gear').textContent = data.gear[idx];
+      document.getElementById('t-throttle').textContent = data.throttle[idx] + '%';
+    }
+
+    // Dibujar gráfico de telemetría (canvas simple)
+    function drawTelemetryChart(speedData) {
+      const canvas = document.getElementById('telemetry-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width = canvas.offsetWidth;
+      const height = canvas.height = canvas.offsetHeight;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      // Configurar gráfico
+      const maxSpeed = Math.max(...speedData) + 20;
+      const minSpeed = Math.min(...speedData) - 20;
+      const range = maxSpeed - minSpeed;
+      const stepX = width / (speedData.length - 1);
+      
+      // Dibujar línea de fondo
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(225, 6, 0, 0.2)';
+      ctx.lineWidth = 2;
+      
+      speedData.forEach((speed, i) => {
+        const x = i * stepX;
+        const y = height - ((speed - minSpeed) / range) * height;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      
+      // Rellenar área
+      ctx.lineTo(width, height);
+      ctx.lineTo(0, height);
+      ctx.closePath();
+      const gradient = ctx.createLinearGradient(0, 0, 0, height);
+      gradient.addColorStop(0, 'rgba(225, 6, 0, 0.4)');
+      gradient.addColorStop(1, 'rgba(225, 6, 0, 0.05)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Puntos
+      speedData.forEach((speed, i) => {
+        const x = i * stepX;
+        const y = height - ((speed - minSpeed) / range) * height;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#e10600';
+        ctx.fill();
+      });
+      
+      // Etiquetas
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.font = '10px sans-serif';
+      ctx.fillText('S1', 10, height - 10);
+      ctx.fillText('S2', width/2 - 10, height - 10);
+      ctx.fillText('S3', width - 25, height - 10);
     }
   </script>
 </body>
