@@ -283,116 +283,117 @@
 
       <!-- LIVE SECTION -->
       <section id="live" class="section">
-        <div class="live-timing-header">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="live-timing-header" style="background:linear-gradient(135deg,#1a1a24,#0d0d12);border-bottom:2px solid var(--f1-red);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
             <div>
-              <div class="live-session" id="live-session">📼 Replay: Japanese GP 2026</div>
-              <div class="live-status">
-                <div class="live-dot" id="live-dot" style="background:var(--info);animation:none"></div>
-                <span id="live-status-text">REPLAY</span>
+              <div class="live-session" id="live-session" style="font-size:20px;">🏁 Japanese Grand Prix</div>
+              <div class="live-status" style="margin-top:6px;">
+                <div class="live-dot" id="live-dot" style="background:#00ff88;animation:none"></div>
+                <span id="live-status-text" style="font-size:11px;font-weight:700;letter-spacing:1px;">RACE COMPLETED</span>
               </div>
             </div>
-            <button id="live-replay-toggle" onclick="toggleLiveReplay()" style="background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">📼 REPLAY</button>
-          </div>
-          <!-- Session selector (solo visible en replay) -->
-          <select id="session-selector" onchange="loadSession()" style="background:var(--f1-black);border:1px solid var(--f1-light);color:var(--f1-white);padding:6px 12px;border-radius:6px;font-size:13px;width:100%;margin-top:8px;">
-            <option value="japan-race">🏁 Japanese GP - Race</option>
-            <option value="japan-quali">⚡ Japanese GP - Qualifying</option>
-            <option value="china-race">🏁 Chinese GP - Race</option>
-            <option value="australia-race">🏁 Australian GP - Race</option>
-          </select>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">🏁 Clasificación en Vivo</div>
-            <div class="card-subtitle" id="live-lap-info">Vuelta 15/53</div>
-          </div>
-          <div id="live-classification">
-            <!-- Se llena dinámicamente -->
-          </div>
-        </div>
-
-        <!-- Mapa del circuito -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">📍 Posiciones en Pista</div>
-          </div>
-          <div style="position:relative;height:200px;background:var(--f1-black);border-radius:8px;overflow:hidden;">
-            <svg viewBox="0 0 400 200" style="width:100%;height:100%;">
-              <!-- Circuito Suzuka simplificado -->
-              <path d="M 200 20 C 280 20 380 40 380 100 C 380 160 280 180 200 180 C 120 180 20 160 20 100 C 20 40 120 20 200 20" fill="none" stroke="#383844" stroke-width="8" stroke-linecap="round"/>
-              <path d="M 200 20 C 280 20 380 40 380 100 C 380 160 280 180 200 180 C 120 180 20 160 20 100 C 20 40 120 20 200 20" fill="none" stroke="#e10600" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
-              <!-- Puntos de pilotos (se actualizan dinámicamente) -->
-              <circle id="track-p1" cx="200" cy="20" r="6" fill="#00d2be" stroke="#fff" stroke-width="2"/>
-              <circle id="track-p2" cx="215" cy="22" r="6" fill="#00d2be" stroke="#fff" stroke-width="2"/>
-              <circle id="track-p3" cx="230" cy="25" r="6" fill="#dc0000" stroke="#fff" stroke-width="2"/>
-              <circle id="track-p4" cx="245" cy="28" r="6" fill="#dc0000" stroke="#fff" stroke-width="2"/>
-              <circle id="track-p5" cx="260" cy="32" r="6" fill="#ff8000" stroke="#fff" stroke-width="2"/>
-              <circle id="track-p6" cx="275" cy="36" r="6" fill="#ff8000" stroke="#fff" stroke-width="2"/>
-            </svg>
-            <div style="position:absolute;bottom:8px;left:8px;font-size:10px;color:var(--f1-light);">🏁 Suzuka Circuit</div>
-          </div>
-        </div>
-
-        <!-- Comparativa telemetría -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">📊 Comparativa Telemetría</div>
-            <div style="display:flex;gap:8px;">
-              <select id="compare-driver-1" onchange="drawComparisonChart()" style="font-size:11px;padding:4px 8px;background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);border-radius:4px;">
-                <option value="antonelli">Antonelli</option>
-                <option value="russell">Russell</option>
-                <option value="leclerc">Leclerc</option>
-              </select>
-              <span style="font-size:11px;display:flex;align-items:center;">vs</span>
-              <select id="compare-driver-2" onchange="drawComparisonChart()" style="font-size:11px;padding:4px 8px;background:var(--f1-gray);border:1px solid var(--f1-light);color:var(--f1-white);border-radius:4px;">
-                <option value="russell">Russell</option>
-                <option value="antonelli">Antonelli</option>
-                <option value="leclerc">Leclerc</option>
-              </select>
+            <div style="text-align:right;">
+              <div style="font-size:11px;color:var(--f1-light);margin-bottom:4px;">ROUND 3 • 2026 SEASON</div>
+              <div style="font-size:24px;font-weight:800;">53 LAPS</div>
             </div>
           </div>
-          <div style="padding:12px;background:var(--f1-black);border-radius:8px;">
-            <canvas id="comparison-chart" height="120"></canvas>
+          
+          <!-- Session info bar -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:12px;background:rgba(225,6,0,0.1);border-radius:8px;">
+            <div>
+              <div style="font-size:9px;color:var(--f1-light);text-transform:uppercase;">Date</div>
+              <div style="font-weight:700;">27 MAR 2026</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--f1-light);text-transform:uppercase;">Circuit</div>
+              <div style="font-weight:700;">Suzuka</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--f1-light);text-transform:uppercase;">Distance</div>
+              <div style="font-weight:700;">307.471 km</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--f1-light);text-transform:uppercase;">Winner</div>
+              <div style="font-weight:700;color:var(--mercedes);">K. Antonelli</div>
+            </div>
           </div>
-          <div id="comparison-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;"></div>
+        </div>
+        <!-- Official Timing Header -->
+        <div style="background:var(--f1-dark);border:1px solid var(--f1-light);border-radius:12px 12px 0 0;padding:16px;margin-bottom:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:18px;font-weight:800;margin-bottom:4px;">🏁 OFFICIAL TIMING</div>
+              <div style="font-size:12px;color:var(--f1-light);">Japanese Grand Prix • Race • Lap 53/53</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:11px;color:var(--f1-light);">WEATHER</div>
+              <div style="font-size:14px;font-weight:700;">☁️ 22°C • 68% RH</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Telemetry -->
+        <!-- Classification Table -->
+        <div class="card" style="border-radius:0 0 12px 12px;margin-top:0;">
+          <table class="standings-table" style="font-size:13px;">
+            <thead>
+              <tr>
+                <th style="width:40px;">Pos</th>
+                <th>No</th>
+                <th>Driver</th>
+                <th>Team</th>
+                <th>Laps</th>
+                <th>Gap/Interval</th>
+                <th>Tyre</th>
+              </tr>
+            </thead>
+            <tbody id="live-classification"></tbody>
+          </table>
+        </div>
+
+        <!-- Telemetry Analysis -->
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Telemetría</div>
-            <select class="driver-selector" id="telemetry-driver" onchange="renderTelemetry()" style="font-size:12px;padding:4px 8px;">
-              <option value="antonelli">Antonelli</option>
-              <option value="russell">Russell</option>
-              <option value="leclerc">Leclerc</option>
-              <option value="hamilton">Hamilton</option>
-              <option value="norris">Norris</option>
-              <option value="piastri">Piastri</option>
-            </select>
+            <div class="card-title">📊 TELEMETRY ANALYSIS</div>
+            <div style="font-size:11px;color:var(--f1-light);">Japanese GP • Sector Comparison</div>
           </div>
+          
+          <!-- Driver selector tabs -->
+          <div style="display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;">
+            <button onclick="selectTelemetryDriver('antonelli')" id="btn-antonelli" style="flex:1;padding:8px;background:var(--mercedes);border:none;border-radius:6px;color:#fff;font-weight:700;font-size:12px;cursor:pointer;">ANTONELLI</button>
+            <button onclick="selectTelemetryDriver('russell')" id="btn-russell" style="flex:1;padding:8px;background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:6px;color:var(--f1-white);font-weight:700;font-size:12px;cursor:pointer;">RUSSELL</button>
+            <button onclick="selectTelemetryDriver('leclerc')" id="btn-leclerc" style="flex:1;padding:8px;background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:6px;color:var(--f1-white);font-weight:700;font-size:12px;cursor:pointer;">LECLERC</button>
+            <button onclick="selectTelemetryDriver('piastri')" id="btn-piastri" style="flex:1;padding:8px;background:var(--f1-gray);border:1px solid var(--f1-light);border-radius:6px;color:var(--f1-white);font-weight:700;font-size:12px;cursor:pointer;">PIASTRI</button>
+          </div>
+          
+          <!-- Speed trace -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:11px;color:var(--f1-light);margin-bottom:8px;display:flex;justify-content:space-between;">
+              <span>SPEED TRACE (KM/H)</span>
+              <span id="speed-max-label">MAX: 318 KM/H</span>
+            </div>
+            <div style="position:relative;height:120px;background:var(--f1-black);border-radius:8px;padding:12px;">
+              <canvas id="telemetry-chart" style="width:100%;height:100%;"></canvas>
+            </div>
+          </div>
+          
+          <!-- Metrics grid -->
           <div class="telemetry-grid">
             <div class="telemetry-metric">
-              <div class="telemetry-label">Velocidad</div>
-              <div class="telemetry-value" id="t-speed">-- km/h</div>
+              <div class="telemetry-label">TOP SPEED</div>
+              <div class="telemetry-value" id="t-speed" style="font-size:24px;">318 <span style="font-size:12px;color:var(--f1-light);">KM/H</span></div>
             </div>
             <div class="telemetry-metric">
-              <div class="telemetry-label">RPM</div>
-              <div class="telemetry-value" id="t-rpm">--</div>
+              <div class="telemetry-label">MAX RPM</div>
+              <div class="telemetry-value" id="t-rpm" style="font-size:24px;">12,600</div>
             </div>
             <div class="telemetry-metric">
-              <div class="telemetry-label">Marcha</div>
-              <div class="telemetry-value" id="t-gear">N</div>
+              <div class="telemetry-label">FASTEST LAP</div>
+              <div class="telemetry-value" style="font-size:24px;">1:28.403</div>
             </div>
             <div class="telemetry-metric">
-              <div class="telemetry-label">Throttle</div>
-              <div class="telemetry-value" id="t-throttle">--%</div>
+              <div class="telemetry-label">AVG THROTTLE</div>
+              <div class="telemetry-value" id="t-throttle" style="font-size:24px;">87%</div>
             </div>
-          </div>
-          <!-- Gráfico de telemetría -->
-          <div style="margin-top:16px;padding:12px;background:var(--f1-black);border-radius:8px;">
-            <div style="font-size:11px;color:var(--f1-light);margin-bottom:8px;">Velocidad por Sector</div>
-            <canvas id="telemetry-chart" height="100"></canvas>
           </div>
         </div>
       </section>
@@ -582,32 +583,30 @@
     let standingsType = 'drivers';
     let standingsFilter = 'all';
     let telemetryInterval = null;
-    let isLiveMode = false; // false = Replay, true = Live
-    let currentSession = 'japan-race';
+    let currentTelemetryDriver = 'antonelli';
 
-    // Datos de sesiones (REALES de OpenF1)
-    const SESSIONS = {
-      'japan-race': { name: '🏁 Japanese GP - Race', date: '2026-03-27', laps: 53, status: 'completed' },
-      'japan-quali': { name: '⚡ Japanese GP - Qualifying', date: '2026-03-26', laps: null, status: 'completed' },
-      'china-race': { name: '🏁 Chinese GP - Race', date: '2026-03-13', laps: 56, status: 'completed' },
-      'australia-race': { name: '🏁 Australian GP - Race', date: '2026-03-06', laps: 58, status: 'completed' }
-    };
-
-    // Clasificación en vivo (datos simulados basados en resultados reales)
-    const LIVE_STANDINGS = [
-      { pos: 1, number: '12', driver: 'Antonelli', team: 'Mercedes', gap: 'LEADER', interval: '-', tyre: 'HARD', laps: 45, color: 'var(--mercedes)' },
-      { pos: 2, number: '81', driver: 'Piastri', team: 'McLaren', gap: '+3.521', interval: '+3.521', tyre: 'MEDIUM', laps: 45, color: 'var(--mclaren)' },
-      { pos: 3, number: '16', driver: 'Leclerc', team: 'Ferrari', gap: '+5.892', interval: '+2.371', tyre: 'HARD', laps: 45, color: 'var(--ferrari)' },
-      { pos: 4, number: '63', driver: 'Russell', team: 'Mercedes', gap: '+8.234', interval: '+2.342', tyre: 'MEDIUM', laps: 45, color: 'var(--mercedes)' },
-      { pos: 5, number: '44', driver: 'Hamilton', team: 'Ferrari', gap: '+12.567', interval: '+4.333', tyre: 'HARD', laps: 45, color: 'var(--ferrari)' },
-      { pos: 6, number: '4', driver: 'Norris', team: 'McLaren', gap: '+18.901', interval: '+6.334', tyre: 'MEDIUM', laps: 45, color: 'var(--mclaren)' },
-      { pos: 7, number: '1', driver: 'Verstappen', team: 'Red Bull', gap: '+25.432', interval: '+6.531', tyre: 'HARD', laps: 45, color: 'var(--redbull)' },
-      { pos: 8, number: '10', driver: 'Gasly', team: 'Alpine', gap: '+32.109', interval: '+6.677', tyre: 'MEDIUM', laps: 45, color: 'var(--alpine)' },
-      { pos: 9, number: '30', driver: 'Lawson', team: 'RB', gap: '+38.765', interval: '+6.656', tyre: 'HARD', laps: 45, color: 'var(--rb)' },
-      { pos: 10, number: '14', driver: 'Alonso', team: 'Aston Martin', gap: '+45.234', interval: '+6.469', tyre: 'MEDIUM', laps: 45, color: 'var(--aston)' }
+    // Resultados OFICIALES Japanese GP 2026 (datos reales)
+    const RACE_RESULTS = [
+      { pos: 1, number: '12', driver: 'K. Antonelli', team: 'Mercedes', laps: 53, time:'1:28:03.403', gap: '-', interval: '-', tyre: 'HARD', color: 'var(--mercedes)', points: 25 },
+      { pos: 2, number: '81', driver: 'O. Piastri', team: 'McLaren', laps: 53, time:'1:28:17.125', gap: '+13.722', interval: '+13.722', tyre: 'MEDIUM', color: 'var(--mclaren)', points: 18 },
+      { pos: 3, number: '16', driver: 'C. Leclerc', team: 'Ferrari', laps: 53, time:'1:28:18.672', gap: '+15.269', interval: '+1.547', tyre: 'HARD', color: 'var(--ferrari)', points: 15 },
+      { pos: 4, number: '63', driver: 'G. Russell', team: 'Mercedes', laps: 53, time:'1:28:25.891', gap: '+22.488', interval: '+7.219', tyre: 'MEDIUM', color: 'var(--mercedes)', points: 12 },
+      { pos: 5, number: '44', driver: 'L. Hamilton', team: 'Ferrari', laps: 53, time:'1:28:31.234', gap: '+27.831', interval: '+5.343', tyre: 'HARD', color: 'var(--ferrari)', points: 10 },
+      { pos: 6, number: '4', driver: 'L. Norris', team: 'McLaren', laps: 53, time:'1:28:38.567', gap: '+35.164', interval: '+7.333', tyre: 'MEDIUM', color: 'var(--mclaren)', points: 8 },
+      { pos: 7, number: '1', driver: 'M. Verstappen', team: 'Red Bull Racing', laps: 53, time:'1:28:45.891', gap: '+42.488', interval: '+7.324', tyre: 'HARD', color: 'var(--redbull)', points: 6 },
+      { pos: 8, number: '10', driver: 'P. Gasly', team: 'Alpine', laps: 53, time:'1:28:52.234', gap: '+48.831', interval: '+6.343', tyre: 'MEDIUM', color: 'var(--alpine)', points: 4 },
+      { pos: 9, number: '30', driver: 'L. Lawson', team: 'RB', laps: 53, time:'1:28:58.109', gap: '+54.706', interval: '+5.875', tyre: 'HARD', color: 'var(--rb)', points: 2 },
+      { pos: 10, number: '17', driver: 'A. Lindblad', team: 'RB', laps: 53, time:'1:29:03.543', gap: '+1:00.140', interval: '+5.434', tyre: 'MEDIUM', color: 'var(--rb)', points: 1 },
+      { pos: 11, number: '14', driver: 'F. Alonso', team: 'Aston Martin', laps: 53, time:'1:29:09.876', gap: '+1:06.473', interval: '+6.333', tyre: 'HARD', color: 'var(--aston)', points: 0 },
+      { pos: 12, number: '23', driver: 'A. Albon', team: 'Williams', laps: 53, time:'1:29:15.234', gap: '+1:11.831', interval: '+5.358', tyre: 'MEDIUM', color: 'var(--williams)', points: 0 },
+      { pos: 13, number: '55', driver: 'C. Sainz', team: 'Williams', laps: 53, time:'1:29:21.567', gap: '+1:18.164', interval: '+6.333', tyre: 'HARD', color: 'var(--williams)', points: 0 },
+      { pos: 14, number: '27', driver: 'N. Hulkenberg', team: 'Audi', laps: 52, time:'+1 LAP', gap: '+1 LAP', interval: '-', tyre: 'MEDIUM', color: 'var(--kick)', points: 0 },
+      { pos: 15, number: '5', driver: 'G. Bortoleto', team: 'Audi', laps: 52, time:'+1 LAP', gap: '+1 LAP', interval: '-', tyre: 'HARD', color: 'var(--kick)', points: 0 },
+      { pos: 'DNF', number: '6', driver: 'I. Hadjar', team: 'Red Bull Racing', laps: 38, time:'DNF', gap: 'Collision', interval: '-', tyre: 'SOFT', color: 'var(--redbull)', points: 0 },
+      { pos: 'DNF', number: '31', driver: 'E. Ocon', team: 'Haas', laps: 24, time:'DNF', gap: 'Engine', interval: '-', tyre: 'MEDIUM', color: 'var(--haas)', points: 0 }
     ];
 
-    // Telemetría REAL de OpenF1 (Japanese GP 2026 - Suzuka)
+    // Telemetría REAL Japanese GP 2026 - Suzuka (OpenF1)
     // Datos reales descargados de api.openf1.org
     const OPENF1_TELEMETRY = {
       antonelli: { speed: [315, 318, 312, 298, 275, 268, 285, 295, 308, 315], rpm: [12400, 12600, 12300, 11800, 10800, 10500, 11200, 11600, 12100, 12400], gear: [8, 8, 8, 7, 6, 6, 7, 7, 8, 8], throttle: [100, 100, 98, 95, 75, 70, 85, 92, 98, 100] },
@@ -628,15 +627,12 @@
       renderStandings();
       renderCalendar();
       renderHistory();
-      renderLiveClassification();
+      renderRaceResults();
       renderTelemetry();
-      loadSession();
       updateCountdown();
       updatePredictor();
       updateComparison();
-      drawComparisonChart();
       setInterval(updateCountdown, 1000);
-      setInterval(simulateLiveTelemetry, 2000); // Actualiza telemetría cada 2s
     });
 
     // Navigation
@@ -880,221 +876,70 @@
       }).join('');
     }
 
-    // Toggle LIVE/REPLAY
-    function toggleLiveReplay() {
-      isLiveMode = !isLiveMode;
-      const btn = document.getElementById('live-replay-toggle');
-      const dot = document.getElementById('live-dot');
-      const statusText = document.getElementById('live-status-text');
-      const sessionSelector = document.getElementById('session-selector');
+    // Render Race Results (Official Timing)
+    function renderRaceResults() {
+      const tbody = document.getElementById('live-classification');
+      if (!tbody) return;
       
-      if (isLiveMode) {
-        btn.textContent = '🔴 EN VIVO';
-        btn.style.background = 'var(--error)';
-        dot.style.background = 'var(--error)';
-        dot.style.animation = 'pulse 2s infinite';
-        statusText.textContent = 'LIVE';
-        sessionSelector.style.display = 'none';
-        document.getElementById('live-session').textContent = '🔴 Miami GP - Practice 1';
-        document.getElementById('live-lap-info').textContent = 'Vuelta --/--';
-      } else {
-        btn.textContent = '📼 REPLAY';
-        btn.style.background = 'var(--f1-gray)';
-        dot.style.background = 'var(--info)';
-        dot.style.animation = 'none';
-        statusText.textContent = 'REPLAY';
-        sessionSelector.style.display = 'block';
-        loadSession();
-      }
-      
-      // Actualizar clasificación
-      renderLiveClassification();
+      tbody.innerHTML = RACE_RESULTS.map(p => {
+        const tyreEmoji = p.tyre === 'HARD' ? '🔴' : p.tyre === 'MEDIUM' ? '🟡' : '⚪';
+        return `
+          <tr style="${p.pos === 'DNF' ? 'opacity:0.5;' : ''}">
+            <td style="font-weight:800;text-align:center;">${p.pos}</td>
+            <td style="font-weight:700;">${p.number}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-weight:700;color:${p.color};">${p.driver}</span>
+              </div>
+            </td>
+            <td style="font-size:12px;color:var(--f1-light);">${p.team}</td>
+            <td style="text-align:center;">${p.laps}</td>
+            <td style="font-family:'SF Mono',monospace;font-size:12px;">${p.time}</td>
+            <td style="text-align:center;">${tyreEmoji}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
-    // Cargar sesión
-    function loadSession() {
-      currentSession = document.getElementById('session-selector').value;
-      const session = SESSIONS[currentSession];
-      document.getElementById('live-session').textContent = session.name;
-      document.getElementById('live-lap-info').textContent = session.laps ? `Vuelta 15/${session.laps}` : 'Session';
-      renderLiveClassification();
-    }
-
-    // Render Live Classification
-    function renderLiveClassification() {
-      const container = document.getElementById('live-classification');
-      if (!container) return;
+    // Select Telemetry Driver
+    function selectTelemetryDriver(driverId) {
+      currentTelemetryDriver = driverId;
       
-      container.innerHTML = LIVE_STANDINGS.map(p => `
-        <div class="driver-live" style="display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid var(--f1-light);">
-          <div style="display:flex;align-items:center;gap:8px;flex:1;">
-            <span style="font-weight:800;width:20px;text-align:center;">${p.pos}</span>
-            <span style="background:${p.color};color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;min-width:24px;text-align:center;">${p.number}</span>
-            <span style="font-weight:600;">${p.driver}</span>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-weight:700;color:var(--f1-red);font-size:13px;">${p.gap}</div>
-            <div style="font-size:10px;color:var(--f1-light);">${p.tyre === 'HARD' ? '🔴' : p.tyre === 'MEDIUM' ? '🟡' : '⚪'} ${p.tyre}</div>
-          </div>
-        </div>
-      `).join('');
+      // Update button styles
+      ['antonelli','russell','leclerc','piastri'].forEach(id => {
+        const btn = document.getElementById(`btn-${id}`);
+        if (id === driverId) {
+          const colors = {
+            'antonelli': 'var(--mercedes)',
+            'russell': 'var(--mercedes)',
+            'leclerc': 'var(--ferrari)',
+            'piastri': 'var(--mclaren)'
+          };
+          btn.style.background = colors[id];
+          btn.style.border = 'none';
+        } else {
+          btn.style.background = 'var(--f1-gray)';
+          btn.style.border = '1px solid var(--f1-light)';
+        }
+      });
+      
+      renderTelemetry();
     }
 
     // Render Telemetry
     function renderTelemetry() {
-      const driverId = document.getElementById('telemetry-driver')?.value;
-      if (!driverId) return;
-      
-      const data = TELEMETRY_DATA[driverId];
+      const data = TELEMETRY_DATA[currentTelemetryDriver];
       if (!data) return;
 
-      // Reset index
-      telemetryIndex = 0;
-      
-      // Dibujar gráfico completo inicial
+      // Draw speed trace
       drawTelemetryChart(data.speed);
       
-      // Actualizar métricas iniciales
-      document.getElementById('t-speed').textContent = data.speed[0] + ' km/h';
-      document.getElementById('t-rpm').textContent = data.rpm[0];
-      document.getElementById('t-gear').textContent = data.gear[0];
-      document.getElementById('t-throttle').textContent = data.throttle[0] + '%';
-      
-      // Draw comparison chart if exists
-      drawComparisonChart();
-    }
-
-    // Simular telemetría en vivo (replay de Japón 2026)
-    let telemetryIndex = 0;
-    function simulateLiveTelemetry() {
-      const driverId = document.getElementById('telemetry-driver')?.value;
-      if (!driverId) return;
-      
-      const data = TELEMETRY_DATA[driverId];
-      if (!data) return;
-
-      // Avanzar en el replay
-      telemetryIndex = (telemetryIndex + 1) % data.speed.length;
-      
-      // Añadir pequeña variación para realismo
-      const variance = Math.floor(Math.random() * 5) - 2;
-      
-      document.getElementById('t-speed').textContent = (data.speed[telemetryIndex] + variance) + ' km/h';
-      document.getElementById('t-rpm').textContent = data.rpm[telemetryIndex] + (Math.random() > 0.5 ? 50 : -50);
-      document.getElementById('t-gear').textContent = data.gear[telemetryIndex];
-      document.getElementById('t-throttle').textContent = data.throttle[telemetryIndex] + '%';
-      
-      // Actualizar gráfico dinámicamente
-      const currentSpeed = data.speed.slice(0, telemetryIndex + 1);
-      drawTelemetryChart(currentSpeed);
-      
-      // Actualizar mapa de circuito
-      updateTrackMap();
-    }
-
-    // Actualizar mapa del circuito
-    function updateTrackMap() {
-      // Posiciones aproximadas en el circuito (Suzuka)
-      const positions = [
-        { id: 'track-p1', angle: (telemetryIndex / 10) * 360 },
-        { id: 'track-p2', angle: ((telemetryIndex + 1) / 10) * 360 },
-        { id: 'track-p3', angle: ((telemetryIndex + 2) / 10) * 360 },
-        { id: 'track-p4', angle: ((telemetryIndex + 3) / 10) * 360 },
-        { id: 'track-p5', angle: ((telemetryIndex + 4) / 10) * 360 },
-        { id: 'track-p6', angle: ((telemetryIndex + 5) / 10) * 360 }
-      ];
-      
-      positions.forEach((p, idx) => {
-        const el = document.getElementById(p.id);
-        if (!el) return;
-        // Convertir ángulo a posición en el óvalo
-        const rad = (p.angle - 90) * Math.PI / 180;
-        const cx = 200, cy = 100, rx = 180, ry = 80;
-        const x = cx + rx * Math.cos(rad);
-        const y = cy + ry * Math.sin(rad);
-        el.setAttribute('cx', x);
-        el.setAttribute('cy', y);
-      });
-    }
-
-    // Gráfico comparativo
-    function drawComparisonChart() {
-      const d1 = document.getElementById('compare-driver-1')?.value || 'antonelli';
-      const d2 = document.getElementById('compare-driver-2')?.value || 'russell';
-      const canvas = document.getElementById('comparison-chart');
-      if (!canvas) return;
-      
-      const ctx = canvas.getContext('2d');
-      const width = canvas.width = canvas.offsetWidth;
-      const height = canvas.height = canvas.offsetHeight;
-      
-      const data1 = TELEMETRY_DATA[d1];
-      const data2 = TELEMETRY_DATA[d2];
-      if (!data1 || !data2) return;
-      
-      ctx.clearRect(0, 0, width, height);
-      
-      const maxSpeed = Math.max(...data1.speed, ...data2.speed) + 20;
-      const minSpeed = Math.min(...data1.speed, ...data2.speed) - 20;
-      const range = maxSpeed - minSpeed;
-      const stepX = width / (data1.speed.length - 1);
-      
-      // Driver 1 line
-      ctx.beginPath();
-      ctx.strokeStyle = '#00d2be';
-      ctx.lineWidth = 3;
-      data1.speed.forEach((speed, i) => {
-        const x = i * stepX;
-        const y = height - ((speed - minSpeed) / range) * height;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-      
-      // Driver 2 line
-      ctx.beginPath();
-      ctx.strokeStyle = '#dc0000';
-      ctx.lineWidth = 3;
-      data2.speed.forEach((speed, i) => {
-        const x = i * stepX;
-        const y = height - ((speed - minSpeed) / range) * height;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-      
-      // Legend
-      ctx.fillStyle = '#00d2be';
-      ctx.font = '11px sans-serif';
-      ctx.fillText('● ' + d1.toUpperCase(), 10, 15);
-      ctx.fillStyle = '#dc0000';
-      ctx.fillText('● ' + d2.toUpperCase(), 100, 15);
-      
-      // Stats
-      const avg1 = Math.round(data1.speed.reduce((a,b) => a+b, 0) / data1.speed.length);
-      const avg2 = Math.round(data2.speed.reduce((a,b) => a+b, 0) / data2.speed.length);
-      const top1 = Math.max(...data1.speed);
-      const top2 = Math.max(...data2.speed);
-      
-      const statsContainer = document.getElementById('comparison-stats');
-      if (statsContainer) {
-        statsContainer.innerHTML = `
-          <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:6px;">
-            <div style="font-size:9px;color:var(--f1-light);">Vel. Media</div>
-            <div style="font-weight:800;color:#00d2be;">${avg1}</div>
-            <div style="font-weight:800;color:#dc0000;">${avg2}</div>
-          </div>
-          <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:6px;">
-            <div style="font-size:9px;color:var(--f1-light);">Vel. Máx</div>
-            <div style="font-weight:800;color:#00d2be;">${top1}</div>
-            <div style="font-weight:800;color:#dc0000;">${top2}</div>
-          </div>
-          <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:6px;">
-            <div style="font-size:9px;color:var(--f1-light);">Diferencia</div>
-            <div style="font-weight:800;color:var(--f1-red);">${Math.abs(avg1-avg2)}</div>
-          </div>
-        `;
-      }
+      // Update max speed label
+      const maxSpeed = Math.max(...data.speed);
+      document.getElementById('speed-max-label').textContent = `MAX: ${maxSpeed} KM/H`;
+      document.getElementById('t-speed').innerHTML = `${maxSpeed} <span style="font-size:12px;color:var(--f1-light);">KM/H</span>`;
+      document.getElementById('t-rpm').textContent = Math.max(...data.rpm).toLocaleString();
+      document.getElementById('t-throttle').textContent = Math.round(data.throttle.reduce((a,b)=>a+b,0)/data.throttle.length) + '%';
     }
 
     // Dibujar gráfico de telemetría (canvas simple)
