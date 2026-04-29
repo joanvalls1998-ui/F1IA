@@ -399,6 +399,15 @@
           </div>
         </div>
       </section>
+
+      <!-- HISTORY SECTION -->
+      <section id="history" class="section">
+        <div class="section-header">
+          <h2 class="section-title">📜 Historial de Carreras</h2>
+          <div class="card-subtitle">Temporada 2026</div>
+        </div>
+        <div id="history-list"></div>
+      </section>
     </main>
 
     <!-- Bottom Navigation -->
@@ -422,6 +431,10 @@
       <button class="nav-item" data-section="compare">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/></svg>
         <span>Comparar</span>
+      </button>
+      <button class="nav-item" data-section="history">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+        <span>Historial</span>
       </button>
     </nav>
   </div>
@@ -468,9 +481,9 @@
     ];
 
     const CALENDAR = [
-      {round:1,name:'Australian Grand Prix',circuit:'Albert Park',date:'2026-03-06',time:'05:00',done:true,winner:'Russell'},
-      {round:2,name:'Chinese Grand Prix',circuit:'Shanghai',date:'2026-03-13',time:'07:00',done:true,winner:'Antonelli'},
-      {round:3,name:'Japanese Grand Prix',circuit:'Suzuka',date:'2026-03-27',time:'06:00',done:true,winner:'Antonelli'},
+      {round:1,name:'Australian Grand Prix',circuit:'Albert Park',date:'2026-03-06',time:'05:00',done:true,winner:'Russell',podium:['Russell','Antonelli','Leclerc'],fastestLap:'Russell'},
+      {round:2,name:'Chinese Grand Prix',circuit:'Shanghai',date:'2026-03-13',time:'07:00',done:true,winner:'Antonelli',podium:['Antonelli','Russell','Hamilton'],fastestLap:'Antonelli'},
+      {round:3,name:'Japanese Grand Prix',circuit:'Suzuka',date:'2026-03-27',time:'06:00',done:true,winner:'Antonelli',podium:['Antonelli','Piastri','Leclerc'],fastestLap:'Piastri'},
       {round:4,name:'Miami Grand Prix',circuit:'Miami',date:'2026-05-01',time:'20:30',done:false},
       {round:5,name:'Canadian Grand Prix',circuit:'Gilles Villeneuve',date:'2026-05-22',time:'18:00',done:false},
       {round:6,name:'Monaco Grand Prix',circuit:'Monaco',date:'2026-06-05',time:'13:00',done:false},
@@ -503,6 +516,7 @@
       renderHome();
       renderStandings();
       renderCalendar();
+      renderHistory();
       updateCountdown();
       updatePredictor();
       updateComparison();
@@ -712,6 +726,42 @@
       document.body.classList.toggle('light-mode');
       const btn = document.querySelector('.theme-toggle');
       btn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+    }
+
+    // Render History
+    function renderHistory() {
+      const list = document.getElementById('history-list');
+      const completedRaces = CALENDAR.filter(r => r.done);
+      
+      if (completedRaces.length === 0) {
+        list.innerHTML = '<div class="loading">No hay carreras completadas aún</div>';
+        return;
+      }
+      
+      list.innerHTML = completedRaces.map(race => {
+        const date = new Date(race.date + 'T' + race.time);
+        const getDriverNumber = (name) => {
+          const d = DRIVERS.find(d => d.name.split(' ').pop() === name);
+          return d ? d.number : '?';
+        };
+        
+        return `
+          <div class="race-card completed">
+            <div class="race-round">${race.round}</div>
+            <div class="race-info">
+              <div class="race-name">${race.name}</div>
+              <div class="race-circuit">${race.circuit}</div>
+              <div style="font-size:11px;color:var(--f1-light);margin-top:6px">
+                🏆 <strong>${race.winner}</strong> | 🥈 ${race.podium[1]} | 🥉 ${race.podium[2]} | ⚡ ${race.fastestLap}
+              </div>
+            </div>
+            <div class="race-date">
+              <div class="race-day">${date.getDate()}</div>
+              <div class="race-month">${date.toLocaleDateString('es-ES', {month:'short'})}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
   </script>
 </body>
