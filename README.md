@@ -1,6 +1,12 @@
 # 🏁 F1IA - Formula 1 Intelligence App
 
-App web de Fórmula 1 con IA integrada, live timing, resultados y noticias.
+**La mejor web de Fórmula 1 con Live Timing, telemetría, predicciones y stats en tiempo real.**
+
+## 🌐 Deploy Actual
+
+**Netlify:** https://f1ia-joanvalls.netlify.app
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start)
 
 ## ✨ Características
 
@@ -42,13 +48,26 @@ F1IA/
 
 ## 🛠️ Instalación
 
-### Opción 1: GitHub Pages (Recomendado)
+### Opción 1: Netlify (RECOMENDADO)
+
+1. Ve a https://app.netlify.com
+2. Click "Add new site" → "Import an existing project"
+3. Conecta GitHub y selecciona `joanvalls1998-ui/F1IA`
+4. Build command: `(dejar vacío)` | Publish directory: `/`
+5. Click "Deploy site"
+6. ¡Listo en 30 segundos!
+
+**URL:** `https://f1ia-joanvalls.netlify.app`
+
+Ver `NETLIFY-DEPLOY.md` para instrucciones detalladas.
+
+### Opción 2: GitHub Pages
 
 1. Sube el contenido a un repo GitHub
 2. Activa GitHub Pages en Settings
 3. ¡Listo! URL: `https://tu-usuario.github.io/F1IA/`
 
-### Opción 2: Local
+### Opción 3: Local
 
 ```bash
 # Abrir directamente en navegador
@@ -59,9 +78,9 @@ python3 -m http.server 8000
 # Abrir http://localhost:8000
 ```
 
-### Opción 3: Vercel/Netlify
+### Opción 4: Vercel
 
-1. Conecta tu repo de GitHub
+1. Conecta tu repo de GitHub en Vercel
 2. Deploy automático
 3. ¡Gratis y con HTTPS!
 
