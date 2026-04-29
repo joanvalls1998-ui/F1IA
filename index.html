@@ -396,6 +396,31 @@
         
         <!-- Race Analysis Section -->
         <div id="race-analysis-container" style="display:block;">
+          <!-- Track View -->
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card-header">
+              <div class="card-title">🗺️ SUZUKA CIRCUIT</div>
+              <div style="font-size:11px;color:var(--f1-light);">Japanese GP • 5.807 km • 18 Turns</div>
+            </div>
+            <div style="display:flex;justify-content:center;padding:16px;background:var(--f1-black);border-radius:12px;">
+              <img src="assets/tracks/suzuka.svg" alt="Suzuka Circuit" style="max-width:100%;height:auto;max-height:300px;" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 500 500%22><rect fill=%22%231a1a24%22 width=%22500%22 height=%22500%22/><circle cx=%22250%22 cy=%22250%22 r=%22150%22 fill=%22none%22 stroke=%22%23383844%22 stroke-width=%2220%22/></svg>'">
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;">
+              <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:8px;">
+                <div style="font-size:10px;color:var(--f1-light);">DRS ZONES</div>
+                <div style="font-size:16px;font-weight:800;color:var(--f1-red);">3</div>
+              </div>
+              <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:8px;">
+                <div style="font-size:10px;color:var(--f1-light);">TURN SPEED</div>
+                <div style="font-size:16px;font-weight:800;color:var(--f1-red);">320 km/h</div>
+              </div>
+              <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:8px;">
+                <div style="font-size:10px;color:var(--f1-light);">ELEVATION</div>
+                <div style="font-size:16px;font-weight:800;color:var(--f1-red);">45m</div>
+              </div>
+            </div>
+          </div>
+
           <div class="card">
             <div class="card-header">
               <div class="card-title">📊 RACE ANALYSIS</div>
@@ -595,30 +620,43 @@
   </div>
 
   <script>
+    // URLs de assets visuales
+    const ASSETS = {
+      tracks: {
+        'albert-park': 'assets/tracks/albert-park.svg',
+        'shanghai': 'assets/tracks/shanghai.svg',
+        'suzuka': 'assets/tracks/suzuka.svg',
+        'miami': 'assets/tracks/miami.svg',
+        'imola': 'assets/tracks/imola.svg'
+      },
+      drivers: (driverId) => `https://f1api.dev/images/drivers/${driverId}.png`,
+      teams: (teamId) => `https://f1api.dev/images/teams/${teamId}.png`
+    };
+
     // DATOS REALES 2026 - F1.com OFICIAL (22 pilotos, 11 equipos)
     const DRIVERS = [
-      {id:'antonelli',name:'Kimi Antonelli',number:'12',team:'Mercedes',points:72,wins:2,podiums:3,color:'var(--mercedes)'},
-      {id:'russell',name:'George Russell',number:'63',team:'Mercedes',points:63,wins:1,podiums:3,color:'var(--mercedes)'},
-      {id:'leclerc',name:'Charles Leclerc',number:'16',team:'Ferrari',points:49,wins:0,podiums:2,color:'var(--ferrari)'},
-      {id:'hamilton',name:'Lewis Hamilton',number:'44',team:'Ferrari',points:41,wins:0,podiums:2,color:'var(--ferrari)'},
-      {id:'norris',name:'Lando Norris',number:'4',team:'McLaren',points:25,wins:0,podiums:1,color:'var(--mclaren)'},
-      {id:'piastri',name:'Oscar Piastri',number:'81',team:'McLaren',points:21,wins:0,podiums:1,color:'var(--mclaren)'},
-      {id:'bearman',name:'Oliver Bearman',number:'87',team:'Haas',points:17,wins:0,podiums:0,color:'var(--haas)'},
-      {id:'gasly',name:'Pierre Gasly',number:'10',team:'Alpine',points:15,wins:0,podiums:0,color:'var(--alpine)'},
-      {id:'verstappen',name:'Max Verstappen',number:'1',team:'Red Bull Racing',points:12,wins:0,podiums:0,color:'var(--redbull)'},
-      {id:'lawson',name:'Liam Lawson',number:'30',team:'RB',points:10,wins:0,podiums:0,color:'var(--rb)'},
-      {id:'lindblad',name:'Arvid Lindblad',number:'17',team:'RB',points:4,wins:0,podiums:0,color:'var(--rb)'},
-      {id:'hadjar',name:'Isack Hadjar',number:'6',team:'Red Bull Racing',points:4,wins:0,podiums:0,color:'var(--redbull)'},
-      {id:'bortoleto',name:'Gabriel Bortoleto',number:'5',team:'Audi',points:2,wins:0,podiums:0,color:'var(--kick)'},
-      {id:'sainz',name:'Carlos Sainz',number:'55',team:'Williams',points:2,wins:0,podiums:0,color:'var(--williams)'},
-      {id:'ocon',name:'Esteban Ocon',number:'31',team:'Haas',points:1,wins:0,podiums:0,color:'var(--haas)'},
-      {id:'colapinto',name:'Franco Colapinto',number:'43',team:'Alpine',points:1,wins:0,podiums:0,color:'var(--alpine)'},
-      {id:'hulkenberg',name:'Nico Hulkenberg',number:'27',team:'Audi',points:0,wins:0,podiums:0,color:'var(--kick)'},
-      {id:'albon',name:'Alexander Albon',number:'23',team:'Williams',points:0,wins:0,podiums:0,color:'var(--williams)'},
-      {id:'bottas',name:'Valtteri Bottas',number:'77',team:'Cadillac',points:0,wins:0,podiums:0,color:'var(--haas)'},
-      {id:'perez',name:'Sergio Perez',number:'11',team:'Cadillac',points:0,wins:0,podiums:0,color:'var(--haas)'},
-      {id:'alonso',name:'Fernando Alonso',number:'14',team:'Aston Martin',points:0,wins:0,podiums:0,color:'var(--aston)'},
-      {id:'stroll',name:'Lance Stroll',number:'18',team:'Aston Martin',points:0,wins:0,podiums:0,color:'var(--aston)'}
+      {id:'antonelli',name:'Kimi Antonelli',number:'12',team:'Mercedes',points:72,wins:2,podiums:3,color:'var(--mercedes)',image: ASSETS.drivers('antonelli')},
+      {id:'russell',name:'George Russell',number:'63',team:'Mercedes',points:63,wins:1,podiums:3,color:'var(--mercedes)',image: ASSETS.drivers('russell')},
+      {id:'leclerc',name:'Charles Leclerc',number:'16',team:'Ferrari',points:49,wins:0,podiums:2,color:'var(--ferrari)',image: ASSETS.drivers('leclerc')},
+      {id:'hamilton',name:'Lewis Hamilton',number:'44',team:'Ferrari',points:41,wins:0,podiums:2,color:'var(--ferrari)',image: ASSETS.drivers('hamilton')},
+      {id:'norris',name:'Lando Norris',number:'4',team:'McLaren',points:25,wins:0,podiums:1,color:'var(--mclaren)',image: ASSETS.drivers('norris')},
+      {id:'piastri',name:'Oscar Piastri',number:'81',team:'McLaren',points:21,wins:0,podiums:1,color:'var(--mclaren)',image: ASSETS.drivers('piastri')},
+      {id:'bearman',name:'Oliver Bearman',number:'87',team:'Haas',points:17,wins:0,podiums:0,color:'var(--haas)',image: ASSETS.drivers('bearman')},
+      {id:'gasly',name:'Pierre Gasly',number:'10',team:'Alpine',points:15,wins:0,podiums:0,color:'var(--alpine)',image: ASSETS.drivers('gasly')},
+      {id:'verstappen',name:'Max Verstappen',number:'1',team:'Red Bull Racing',points:12,wins:0,podiums:0,color:'var(--redbull)',image: ASSETS.drivers('verstappen')},
+      {id:'lawson',name:'Liam Lawson',number:'30',team:'RB',points:10,wins:0,podiums:0,color:'var(--rb)',image: ASSETS.drivers('lawson')},
+      {id:'lindblad',name:'Arvid Lindblad',number:'17',team:'RB',points:4,wins:0,podiums:0,color:'var(--rb)',image: ASSETS.drivers('lindblad')},
+      {id:'hadjar',name:'Isack Hadjar',number:'6',team:'Red Bull Racing',points:4,wins:0,podiums:0,color:'var(--redbull)',image: ASSETS.drivers('hadjar')},
+      {id:'bortoleto',name:'Gabriel Bortoleto',number:'5',team:'Audi',points:2,wins:0,podiums:0,color:'var(--kick)',image: ASSETS.drivers('bortoleto')},
+      {id:'sainz',name:'Carlos Sainz',number:'55',team:'Williams',points:2,wins:0,podiums:0,color:'var(--williams)',image: ASSETS.drivers('sainz')},
+      {id:'ocon',name:'Esteban Ocon',number:'31',team:'Haas',points:1,wins:0,podiums:0,color:'var(--haas)',image: ASSETS.drivers('ocon')},
+      {id:'colapinto',name:'Franco Colapinto',number:'43',team:'Alpine',points:1,wins:0,podiums:0,color:'var(--alpine)',image: ASSETS.drivers('colapinto')},
+      {id:'hulkenberg',name:'Nico Hulkenberg',number:'27',team:'Audi',points:0,wins:0,podiums:0,color:'var(--kick)',image: ASSETS.drivers('hulkenberg')},
+      {id:'albon',name:'Alexander Albon',number:'23',team:'Williams',points:0,wins:0,podiums:0,color:'var(--williams)',image: ASSETS.drivers('albon')},
+      {id:'bottas',name:'Valtteri Bottas',number:'77',team:'Cadillac',points:0,wins:0,podiums:0,color:'var(--haas)',image: ASSETS.drivers('bottas')},
+      {id:'perez',name:'Sergio Perez',number:'11',team:'Cadillac',points:0,wins:0,podiums:0,color:'var(--haas)',image: ASSETS.drivers('perez')},
+      {id:'alonso',name:'Fernando Alonso',number:'14',team:'Aston Martin',points:0,wins:0,podiums:0,color:'var(--aston)',image: ASSETS.drivers('alonso')},
+      {id:'stroll',name:'Lance Stroll',number:'18',team:'Aston Martin',points:0,wins:0,podiums:0,color:'var(--aston)',image: ASSETS.drivers('stroll')}
     ];
 
     const CONSTRUCTORS = [
@@ -772,6 +810,7 @@
           <td class="pos">${i + 1}</td>
           <td>
             <div class="driver-row">
+              <img src="${d.image}" alt="${d.name}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
               <span class="driver-number">${d.number}</span>
               <span class="driver-name">${d.name.split(' ').pop()}</span>
             </div>
@@ -814,6 +853,7 @@
             <td class="pos">${i + 1}</td>
             <td>
               <div class="driver-row">
+                <img src="${d.image}" alt="${d.name}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
                 <span class="driver-number">${d.number}</span>
                 <span class="driver-name">${d.name.split(' ').pop()}</span>
               </div>
@@ -993,6 +1033,8 @@
       if (!tbody) return;
       
       tbody.innerHTML = RACE_RESULTS.map(p => {
+        const driver = DRIVERS.find(d => d.id === p.driverId);
+        const imageUrl = driver ? driver.image : '';
         const tyreEmoji = p.tyre === 'HARD' ? '🔴' : p.tyre === 'MEDIUM' ? '🟡' : '⚪';
         return `
           <tr style="${p.pos === 'DNF' ? 'opacity:0.5;' : ''}">
@@ -1000,6 +1042,7 @@
             <td style="font-weight:700;">${p.number}</td>
             <td>
               <div style="display:flex;align-items:center;gap:8px;">
+                <img src="${imageUrl}" alt="${p.driver}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
                 <span style="font-weight:700;color:${p.color};">${p.driver}</span>
               </div>
             </td>
@@ -1071,10 +1114,16 @@
       const container = document.getElementById('tyre-strategies-grid');
       if (!container) return;
       
-      container.innerHTML = TYRE_STRATEGIES.map(s => `
+      container.innerHTML = TYRE_STRATEGIES.map(s => {
+        const driver = DRIVERS.find(d => d.id === s.driverId);
+        const imageUrl = driver ? driver.image : '';
+        return `
         <div style="background:var(--f1-dark);padding:12px;border-radius:8px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-weight:700;color:${s.color};">${s.driver}</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <img src="${imageUrl}" alt="${s.driver}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
+              <span style="font-weight:700;color:${s.color};">${s.driver}</span>
+            </div>
             <span style="font-size:11px;color:var(--f1-light);">${s.stints.length} stops</span>
           </div>
           <div style="display:flex;gap:4px;">
