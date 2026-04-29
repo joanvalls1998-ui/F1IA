@@ -403,7 +403,7 @@
               <div style="font-size:11px;color:var(--f1-light);">Japanese GP • 5.807 km • 18 Turns</div>
             </div>
             <div style="display:flex;justify-content:center;padding:16px;background:var(--f1-black);border-radius:12px;">
-              <img src="assets/tracks/suzuka.svg" alt="Suzuka Circuit" style="max-width:100%;height:auto;max-height:300px;" onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 500 500%22><rect fill=%22%231a1a24%22 width=%22500%22 height=%22500%22/><circle cx=%22250%22 cy=%22250%22 r=%22150%22 fill=%22none%22 stroke=%22%23383844%22 stroke-width=%2220%22/></svg>'">
+              <img src="assets/tracks/suzuka.svg" alt="Suzuka Circuit" style="max-width:100%;height:auto;max-height:300px;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\"width:300px;height:300px;background:var(--f1-dark);border-radius:8px;display:flex;align-items:center;justify-content:center;\"><span style=\"color:var(--f1-light);\">🗺️ Track View</span></div>'">
             </div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;">
               <div style="text-align:center;padding:8px;background:var(--f1-dark);border-radius:8px;">
@@ -810,7 +810,7 @@
           <td class="pos">${i + 1}</td>
           <td>
             <div class="driver-row">
-              <img src="${d.image}" alt="${d.name}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
+              <img src="${d.image}" alt="${d.name}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display=\'none\'">
               <span class="driver-number">${d.number}</span>
               <span class="driver-name">${d.name.split(' ').pop()}</span>
             </div>
@@ -853,7 +853,7 @@
             <td class="pos">${i + 1}</td>
             <td>
               <div class="driver-row">
-                <img src="${d.image}" alt="${d.name}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
+                <img src="${d.image}" alt="${d.name}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display=\'none\'">
                 <span class="driver-number">${d.number}</span>
                 <span class="driver-name">${d.name.split(' ').pop()}</span>
               </div>
@@ -1042,7 +1042,7 @@
             <td style="font-weight:700;">${p.number}</td>
             <td>
               <div style="display:flex;align-items:center;gap:8px;">
-                <img src="${imageUrl}" alt="${p.driver}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display='none'">
+                <img src="${imageUrl}" alt="${p.driver}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(--f1-gray)" onerror="this.style.display=\'none\'">
                 <span style="font-weight:700;color:${p.color};">${p.driver}</span>
               </div>
             </td>
@@ -1114,10 +1114,24 @@
       const container = document.getElementById('tyre-strategies-grid');
       if (!container) return;
       
-      container.innerHTML = TYRE_STRATEGIES.map(s => {
+      let html = '';
+      TYRE_STRATEGIES.forEach(s => {
         const driver = DRIVERS.find(d => d.id === s.driverId);
         const imageUrl = driver ? driver.image : '';
-        return `
+        
+        let stintsHtml = '';
+        s.stints.forEach(stint => {
+          const color = stint.compound === 'HARD' ? '#dc0000' : stint.compound === 'MEDIUM' ? '#ffcc00' : '#ffffff';
+          stintsHtml += `
+            <div style="flex:1;text-align:center;">
+              <div style="height:24px;background:${color};border-radius:4px;margin-bottom:4px;"></div>
+              <div style="font-size:9px;color:var(--f1-light);">${stint.compound}</div>
+              <div style="font-size:9px;font-weight:700;">L${stint.laps}</div>
+            </div>
+          `;
+        });
+        
+        html += `
         <div style="background:var(--f1-dark);padding:12px;border-radius:8px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
             <div style="display:flex;align-items:center;gap:8px;">
@@ -1127,19 +1141,13 @@
             <span style="font-size:11px;color:var(--f1-light);">${s.stints.length} stops</span>
           </div>
           <div style="display:flex;gap:4px;">
-            ${s.stints.map(stint => {
-              const color = stint.compound === 'HARD' ? '#dc0000' : stint.compound === 'MEDIUM' ? '#ffcc00' : '#ffffff';
-              return `
-                <div style="flex:1;text-align:center;">
-                  <div style="height:24px;background:${color};border-radius:4px;margin-bottom:4px;"></div>
-                  <div style="font-size:9px;color:var(--f1-light);">${stint.compound}</div>
-                  <div style="font-size:9px;font-weight:700;">L${stint.laps}</div>
-                </div>
-              `;
-            }).join('')}
+            ${stintsHtml}
           </div>
         </div>
-      `).join('');
+        `;
+      });
+      
+      container.innerHTML = html;
     }
 
     // Render Sector Times
